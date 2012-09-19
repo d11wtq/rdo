@@ -43,7 +43,7 @@ applications that use a database, but don't use an ORM (*scoff!*).
 Or perhaps you're actually writing the next kick-ass ORM? Either way, RDO
 just talks lets you talk directly to your database.
 
-## What features do it provide?
+## Meh, what does it provide?
 
 Let's face it, we've been writing database applications since the dark ages—
 it's not that hard. What's lacking from Ruby, however, is any consistency for
