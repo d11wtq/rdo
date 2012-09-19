@@ -112,7 +112,7 @@ module RDO
     #   (usually the scheme portion of a connection URI)
     def initialize(options)
       @options = options.dup
-      @open    = open or raise RDO::Exception,
+      open or raise RDO::Exception,
         "Unable to establish connection, but the driver did not provide a reason"
     end
 
@@ -135,7 +135,7 @@ module RDO
     # @return [Boolean]
     #   true if the connection is open, false otherwise
     def open?
-      !!@open
+      false
     end
 
     # Close the current connection, if it is open.
