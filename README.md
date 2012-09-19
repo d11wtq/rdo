@@ -234,8 +234,8 @@ include any error messaage provided by the DBMS.
 
 While driver developers are expected to provide a suitable implememtation,
 it is generally riskier to use #quote and interpolate inputs directly into
-the SQL, than to use bind parameters. There are times where you might need
-to escape some input yourself, however. For that, you can call #quote.
+the SQL, than it is to use bind parameters. There are times where you might
+need to escape some input yourself, however. For that, you can call #quote.
 
 ``` ruby
 conn.execute("INSERT INTO users (name) VALUES ('#{conn.quote(params[:name])}')")
