@@ -59,14 +59,15 @@ RDBMS vendors that it can.
 
 The following features are a standard part of the API for RDO:
 
-  - Consistent class/method contracts for all drivers
-  - Native bind parameters where possible; emulated where not
-  - Prepared statement where possible; emulated where not
-  - Type-casting to equivalent Ruby types (e.g. Fixnum, BigDecimal, Float)
-  - Buffered result sets where possible–enumerate millions of rows without
-    memory issues
+  - **Consistent** class/method contracts for all drivers
+  - **Native bind parameters** where possible; emulated where not
+  - **Prepared statements** where possible; emulated where not
+  - **Type-casting** to equivalent Ruby types (e.g. Fixnum, BigDecimal,
+    Float, even Array)
+  - **Buffered result sets** where possible–enumerate millions of rows
+    without memory issues
   - Access meta data after write operations, with insert IDs standardized
-  - Use simple core Hash types for reading values and field names
+  - **Use simple core data types** (Hash) for reading values and field names
 
 ## Installation
 
