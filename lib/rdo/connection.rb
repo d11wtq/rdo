@@ -101,7 +101,7 @@ module RDO
 
     # Initialize the Connection with the given options.
     #
-    # Subclasses SHOULD call super if overriding.
+    # Drivers SHOULD call super if overriding.
     # This method calls #open internally.
     #
     # @param [Hash] options
@@ -113,7 +113,7 @@ module RDO
     def initialize(options)
       @options = options.dup
       open or raise RDO::Exception,
-        "Unable to establish connection, but the driver did not provide a reason"
+        "Unable to connect, but the driver did not provide a reason"
     end
 
     # Open a connection to the RDBMS, if it is not already open.
@@ -130,7 +130,7 @@ module RDO
 
     # Check if the connection is currently open or not.
     #
-    # Some drivers MAY chose to override this.
+    # Drivers MUST override this.
     #
     # @return [Boolean]
     #   true if the connection is open, false otherwise
@@ -140,7 +140,7 @@ module RDO
 
     # Close the current connection, if it is open.
     #
-    # This is a no-op: subclasses MUST override this.
+    # Drivers MUST override this.
     #
     # @return [Boolean]
     #   true if the connection was closed or was already closed, false if not
@@ -153,7 +153,7 @@ module RDO
     # Not all drivers support this natively, but it is emulated by default.
     #
     # This is a default implementation for emulated prepared statements:
-    # subclasses SHOULD override it if possible.
+    # drivers SHOULD override it if possible.
     #
     # @param [String] statement
     #   a string of SQL or DDL, with ? placeholders for bind parameters
@@ -173,7 +173,7 @@ module RDO
     # Where the RDBMS natively support bind parameters, this functionality is
     # used; otherwise, the values are quoted using #quote.
     #
-    # This is a no-op: subclasses MUST override it.
+    # Drivers MUST override this.
     #
     # @param [String] statement
     #   a string of SQL or DDL to be executed
@@ -190,7 +190,7 @@ module RDO
     #
     # This should be avoided where the driver natively supports bind parameters.
     #
-    # Subclasses SHOULD override this with a RDBMS-specific solution.
+    # Drivers SHOULD override this with a RDBMS-specific solution.
     #
     # @param [Object] value
     #   the value to quote

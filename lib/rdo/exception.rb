@@ -6,5 +6,6 @@
 ##
 
 module RDO
+  # This is the only type of Exception raised by RDO.
   class Exception < RuntimeError; end
 end
