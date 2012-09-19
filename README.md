@@ -32,7 +32,7 @@ end
 conn.close
 ```
 
-## But why is your ORM so shit?
+## Why your ORM so shit?
 
 RDO provides access to a number of RDBMS's. It allows you to query using SQL
 and issue commands using DDL, as thinly as is necessary. It is absolutely not,
@@ -48,10 +48,11 @@ just talks lets you talk directly to your database.
 Let's face it, we've been writing database applications since the dark ages—
 it's not that hard. What's lacking from Ruby, however, is any consistency for
 dealing with a database directly. Several beautiful ORMs exist, but they
-serve a different need. DataMapper has a layer underneath it called
-data_objects, but it isn't particularly user-friendly when used standalone
-and it requires jumping through hoops to deal with certain database RDBMS
-features, such as PostgreSQL bytea fields.
+serve a different need. [DataMapper](https://github.com/datamapper/dm-core)
+has a layer underneath it called [data_objects](https://github.com/datamapper/do),
+but it isn't particularly user-friendly when used standalone and it requires
+jumping through hoops to deal with certain database RDBMS features, such as
+PostgreSQL bytea fields.
 
 RDO makes the following things standard:
 
