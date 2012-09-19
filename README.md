@@ -128,16 +128,18 @@ to learn just about everything.
 
 A connection is established when you initialize an RDO::Connection. The
 easiest way to do that is through `RDO.connect`. Make sure you have required
-the driver for RDO first, or it will explode, like, in your face and stuff.
+the driver for RDO first, or it will explode, like, all in your face and stuff.
 
 ``` ruby
 require "rdo"
 require "rdo-postgres"
 
 conn = RDO.connect("postgresql://user:pass@host:port/db_name?encoding=utf-8")
-
 p conn.open? #=> true
 ```
+
+If it is not possible to establish a connection an RDO::Exception is raised,
+which should provide any reason given by the DBMS.
 
 ### Disconnecting
 
@@ -185,6 +187,9 @@ result.each do |row|
 end
 ```
 
+In the event of a query error, an RDO::Exception is raised, which should
+include any error messaage provided by the DBMS.
+
 ### Performing read queries
 
 There is no difference in the interface for reads or writes. Just call
@@ -200,6 +205,9 @@ result.each do |row|
   p "#{row[:id]}: #{row[:name]}"
 end
 ```
+
+In the event of a query error, an RDO::Exception is raised, which should
+include any error messaage provided by the DBMS.
 
 ### Using prepared statements
 
@@ -224,7 +232,10 @@ end
 RDO simply delegates the #execute if the driver doesn't support prepared
 statements.
 
-### Things you probably shouldn't use
+In the event of a query error, an RDO::Exception is raised, which should
+include any error messaage provided by the DBMS.
+
+### Tread carefully, danger lies ahead
 
 While driver developers are expected to provide a suitable implememtation,
 it is generally riskier to use #quote and interpolate inputs directly into
