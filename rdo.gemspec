@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   == Ruby Data Objects
 
   If you're building something in Ruby that needs access to a database, you may
-  opt to use an ORM like ActiveRecord, DataMapper or Sequel. If your needs
+  opt to use an ORM like ActiveRecord, DataMapper or Sequel. But if your needs
   don't fit well with an ORM (maybe you're even writing an ORM?) then you'll
   need some other way of talking to your database.
 
@@ -17,52 +17,28 @@ Gem::Specification.new do |gem|
   Ruby syntax, while supporting all the functionality you'd expect from a robust
   database connection library:
 
-    - Connect to different types of RDBMS
+    - Connect to different types of RDBMS in a consistent way
     - Type casting
     - Safe parameterization of queries
     - Buffered query results
     - Fetching meta data from executed commands
-    - Prepared statements (either native, or emulated where no native support exists)
-    - Connection pooling
-    - Convenient access to queried data
+    - Access RETURNING values just like any read query
+    - Prepared statements (emulated where no native support exists)
+    - Simple core ruby data types
 
   === RDBMS Support
 
-  Support for each RDBMS is provide in separate gems, so as to minimize the
+  Support for each RDBMS is provided in separate gems, so as to minimize the
   installation requirements. Many gems are maintained by separate users who
-  work with those RDBMS's, but they are listed below:
+  work more closely with those RDBMS's.
 
-  <table>
-    <thead>
-      <tr>
-        <th>DBMS</th>
-        <th>Project</th>
-        <th>Author</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>SQLite</td>
-        <td>https://github.com/d11wtq/rdo-sqlite</td>
-        <td>d11wtq (Chris Corbyn)</td>
-      </tr>
-      <tr>
-        <td>PostgreSQL</td>
-        <td>https://github.com/d11wtq/rdo-postgres</td>
-        <td>d11wtq (Chris Corbyn)</td>
-      </tr>
-      <tr>
-        <td>MySQL</td>
-        <td>https://github.com/d11wtq/rdo-mysql</td>
-        <td>d11wtq (Chris Corbyn)</td>
-      </tr>
-    </tbody>
-  </table>
+  Due to the nature of this gem, most of the nitty-gritty code is actually
+  written in C.
 
   See the official README for full details.
   TEXT
 
-  gem.summary       = "Ruby Data Objects—A Really simple multi-RDBMS connection layer"
+  gem.summary       = "RDO—Ruby Data Objects—A robust RDBMS connection layer"
   gem.homepage      = "https://github.com/d11wtq/rdo"
 
   gem.files         = `git ls-files`.split($\)
