@@ -86,6 +86,122 @@ And then execute:
 
     $ bundle
 
+## Usage
+
+The interface for RDO is intentionally minimal. It should take a few minutes
+to learn just about everything.
+
+### Connecting to a database
+
+A connection is established when you initialize an RDO::Connection. The
+easiest way to do that is through `RDO.connect`. Make sure you have required
+the driver for RDO first, or it will explode, like, in your face and stuff.
+
+``` ruby
+require "rdo"
+require "rdo-postgres"
+
+conn = RDO.connect("postgresql://user:pass@host:port/db_name?encoding=utf-8")
+
+p conn.open? #=> true
+```
+
+### Disconnecting
+
+RDO will disconnect automatically when the connection is garbage-collected,
+or when the program exits, but if you need to disconnect explicitly,
+call #close. It is safe to call this even if the connection is already closed.
+
+Call #open to re-connect after closing a connection, for example when forking
+child processes.
+
+``` ruby
+conn.close
+
+p conn.open? #=> false
+
+conn.open
+
+p conn.open? #=> true
+```
+
+### Performing non-read commands
+
+All SQL and DDL (Data Definition Language) is executed with #execute, which
+always returns a RDO::Result object. Query inputs should be provided as
+binding placeholders and additional arguments. No explicit type-conversion is
+necessary.
+
+``` ruby
+result = conn.execute("CREATE TABLE bob ( ... )")
+result = conn.execute("UPDATE users SET banned = ?", true)
+
+p result.affected_rows #=> 5087
+
+result = conn.execute(
+  "INSERT INTO users (name, created_at) VALUES (?, ?) RETURNING id",
+  "Jimbo Baggins"
+)
+
+p result.insert_id       #=> 5088
+p result.execution_time  #=> 0.0000587
+
+# the RETURNING clause is passed by in the result, like a read query
+result.each do |row|
+  p row[:id] #=> 5088
+end
+```
+
+### Performing read queries
+
+There is no difference in the interface for reads or writes. Just call
+the #execute method—which always returns a RDO::Result—for both.
+RDO::Result includes the Enumerable module.
+
+``` ruby
+result = conn.execute("SELECT id, name FROM users WHERE created_at > ?", 1.week.ago)
+
+p result.count #=> 120
+
+result.each do |row|
+  p "#{row[:id]}: #{row[:name]}"
+end
+```
+
+### Using prepared statements
+
+Most mainstream databases support them. Some don't, but RDO emulates them in
+that case. Prepared statements provide safety through bind parameters and
+efficiency through query re-use, because the query planner only executes once.
+
+Prepare a statement with #prepare, then execute it with #execute, passing in
+any bind parameters. An RDO::Result is returned.
+
+``` ruby
+stmt = conn.prepare("SELECT * FROM users WHERE name LIKE ? AND banned = ?")
+
+%w[bob jim harry].each do |name|
+  result = stmt.execute("%#{name}%", false)
+  result.each do |row|
+    p "#{row[:id]: row[:name]}"
+  end
+end
+```
+
+RDO simply delegates the #execute if the driver doesn't support prepared
+statements.
+
+### Things you probably shouldn't use
+
+While driver developers are expected to provide a suitable implememtation,
+it is generally riskier to use #quote and interpolate inputs directly into
+the SQL, than to use bind parameters. There are times where you might need
+to escape some input yourself, however. For that, you can call #quote.
+
+``` ruby
+conn.execute("INSERT INTO users (name) VALUES ('#{conn.quote(params[:name])}')")
+```
+
 ## Contributing
 
 The more drivers that RDO has support for, the better. Writing drivers for
@@ -94,8 +210,8 @@ DBMS, which conform to RDO's interface. Take a look at one of the existing
 drivers to get an idea how to do that. Because one person could not possibly
 maintain drivers for all conceivable DBMS's, it is better that different
 developers write and maintain different drivers. If you have written a driver
-for RDO, however, please edit this README to list it. That way others will
-find it more easily.
+for RDO, please fork this git repo and edit this README to list it, then send
+a pull request. That way others will find it more easily.
 
 If you find a bug in RDO, send a pull request if you think you can fix it.
 Your contribution will be recognized here. If you don't know how to fix it,
