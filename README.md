@@ -86,6 +86,39 @@ And then execute:
 
     $ bundle
 
+## Available Drivers
+
+<table>
+  <thead>
+    <tr>
+      <th>DBMS</th>
+      <th>Aliases</th>
+      <th>Gem</th>
+      <th>Author</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>SQLite</th>
+      <td>sqlite</td>
+      <td>[rdo-sqlite](https://github.com/d11wtq/rdo-sqlite)</td>
+      <td>[d11wtq (Chris Corbyn)](https://github.com/d11wtq)</td>
+    </tr>
+    <tr>
+      <th>PostgreSQL</th>
+      <td>postgresql, postgres</td>
+      <td>[rdo-postgres](https://github.com/d11wtq/rdo-postgres)</td>
+      <td>[d11wtq (Chris Corbyn)](https://github.com/d11wtq)</td>
+    </tr>
+    <tr>
+      <th>MySQL</th>
+      <td>mysql</td>
+      <td>[rdo-mysql](https://github.com/d11wtq/rdo-mysql)</td>
+      <td>[d11wtq (Chris Corbyn)](https://github.com/d11wtq)</td>
+    </tr>
+  </tbody>
+</table>
+
 ## Usage
 
 The interface for RDO is intentionally minimal. It should take a few minutes
