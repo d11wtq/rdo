@@ -101,20 +101,20 @@ And then execute:
     <tr>
       <th>SQLite</th>
       <td>sqlite</td>
-      <td>[rdo-sqlite](https://github.com/d11wtq/rdo-sqlite)</td>
-      <td>[d11wtq (Chris Corbyn)](https://github.com/d11wtq)</td>
+      <td><a href="https://github.com/d11wtq/rdo-sqlite">rdo-sqlite</a></td>
+      <td><a href="https://github.com/d11wtq">d11wtq (Chris Corbyn)</a></td>
     </tr>
     <tr>
       <th>PostgreSQL</th>
       <td>postgresql, postgres</td>
-      <td>[rdo-postgres](https://github.com/d11wtq/rdo-postgres)</td>
-      <td>[d11wtq (Chris Corbyn)](https://github.com/d11wtq)</td>
+      <td><a href="https://github.com/d11wtq/rdo-postgres">rdo-postgres</a></td>
+      <td><a href="https://github.com/d11wtq">d11wtq (Chris Corbyn)</a></td>
     </tr>
     <tr>
       <th>MySQL</th>
       <td>mysql</td>
-      <td>[rdo-mysql](https://github.com/d11wtq/rdo-mysql)</td>
-      <td>[d11wtq (Chris Corbyn)](https://github.com/d11wtq)</td>
+      <td><a href="https://github.com/d11wtq/rdo-mysql">rdo-mysql</a></td>
+      <td><a href="https://github.com/d11wtq">d11wtq (Chris Corbyn)</a></td>
     </tr>
   </tbody>
 </table>
