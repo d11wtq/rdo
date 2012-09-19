@@ -152,11 +152,9 @@ child processes.
 
 ``` ruby
 conn.close
-
 p conn.open? #=> false
 
 conn.open
-
 p conn.open? #=> true
 ```
 
