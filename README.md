@@ -230,7 +230,7 @@ statements.
 In the event of a query error, an RDO::Exception is raised, which should
 include any error messaage provided by the DBMS.
 
-### Tread carefully, danger lies ahead
+### Tread carefully, there be danger ahead
 
 While driver developers are expected to provide a suitable implememtation,
 it is generally riskier to use #quote and interpolate inputs directly into
