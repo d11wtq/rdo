@@ -91,8 +91,8 @@ And then execute:
 <table>
   <thead>
     <tr>
-      <th>DBMS</th>
-      <th>Aliases</th>
+      <th>Database Vendor</th>
+      <th>URI Schemes</th>
       <th>Gem</th>
       <th>Author</th>
     </tr>
@@ -102,19 +102,19 @@ And then execute:
       <th>SQLite</th>
       <td>sqlite</td>
       <td><a href="https://github.com/d11wtq/rdo-sqlite">rdo-sqlite</a></td>
-      <td><a href="https://github.com/d11wtq">d11wtq (Chris Corbyn)</a></td>
+      <td><a href="https://github.com/d11wtq">d11wtq</a></td>
     </tr>
     <tr>
       <th>PostgreSQL</th>
       <td>postgresql, postgres</td>
       <td><a href="https://github.com/d11wtq/rdo-postgres">rdo-postgres</a></td>
-      <td><a href="https://github.com/d11wtq">d11wtq (Chris Corbyn)</a></td>
+      <td><a href="https://github.com/d11wtq">d11wtq</a></td>
     </tr>
     <tr>
       <th>MySQL</th>
       <td>mysql</td>
       <td><a href="https://github.com/d11wtq/rdo-mysql">rdo-mysql</a></td>
-      <td><a href="https://github.com/d11wtq">d11wtq (Chris Corbyn)</a></td>
+      <td><a href="https://github.com/d11wtq">d11wtq</a></td>
     </tr>
   </tbody>
 </table>
@@ -243,6 +243,21 @@ to escape some input yourself, however. For that, you can call #quote.
 ``` ruby
 conn.execute("INSERT INTO users (name) VALUES ('#{conn.quote(params[:name])}')")
 ```
+
+### Column names with whitepsace in them
+
+RDO uses Symbols as keys in the hashes that represent data rows. Most of the
+time this is desirable. If you query for something that returns field names
+containing spaces, or punctation, you need to convert a String to a Symbol
+using #to_sym or #intern. Or wrap the Hash with a Mash of some sort.
+
+``` ruby
+result = conn(%q{SELECT 42 AS "The Meaning"})
+p result.first["The Meaning".intern]
+```
+
+I weighed up the possibility of using a custom data type, but I prefer core
+ruby types unless there's an overwhelming reason to use a custom type, sorry.
 
 ## Contributing
 
