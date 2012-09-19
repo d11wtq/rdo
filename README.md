@@ -15,9 +15,7 @@ conn = RDO.connect("postgres://user:pass@localhost/dbname?encoding=utf-8")
 result = conn.execute(
   "INSERT INTO users (
     username, password_hash, created_at, updated_at
-  ) VALUES (
-    ?, ?, ?, ?
-  ) RETURNING id",
+  ) VALUES (?, ?, ?, ?) RETURNING id",
   'bob',
   Digest::MD5.hexdigest('secret'),
   Time.now,
