@@ -223,7 +223,7 @@ stmt = conn.prepare("SELECT * FROM users WHERE name LIKE ? AND banned = ?")
 end
 ```
 
-RDO simply delegates the #execute if the driver doesn't support prepared
+RDO simply delegates to #execute if the driver doesn't support prepared
 statements.
 
 In the event of a query error, an RDO::Exception is raised, which should
