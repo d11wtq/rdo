@@ -51,13 +51,9 @@ dealing with a database directly. Several beautiful ORMs exist, but they
 serve a different need. DataMapper has a layer underneath it called
 data_objects, but it isn't particularly user-friendly when used standalone
 and it requires jumping through hoops to deal with certain database RDBMS
-features—`bytea` fields, for example, must be wrapped in ByteArray objects
-so that its quoting logic can escape the value correctly. Postgres actually
-provides support for such things transparently at the C layer. It should not
-have to be this way. RDO makes the best use of the C APIs provided by the
-RDBMS vendors that it can.
+features, such as PostgreSQL bytea fields.
 
-The following features are a standard part of the API for RDO:
+RDO makes the following things standard:
 
   - **Consistent** class/method contracts for all drivers
   - **Native bind parameters** where possible; emulated where not
