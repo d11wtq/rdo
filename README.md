@@ -14,7 +14,7 @@ conn = RDO.connect("postgres://user:pass@localhost/dbname?encoding=utf-8")
 
 result = conn.execute(
   "INSERT INTO users (
-    username, password_hash, created_at, updated_at
+    name, password_hash, created_at, updated_at
   ) VALUES (?, ?, ?, ?) RETURNING id",
   'bob',
   Digest::MD5.hexdigest('secret'),
@@ -24,9 +24,9 @@ result = conn.execute(
 
 puts "Inserted user ID = #{result.insert_id}"
 
-result = conn.execute("SELECT * FROM users WHERE username LIKE ?", "%jim%")
+result = conn.execute("SELECT * FROM users WHERE name LIKE ?", "%jim%")
 result.each do |row|
-  puts "#{row[:id]}: #{row[:username]}"
+  puts "#{row[:id]}: #{row[:name]}"
 end
 
 conn.close
