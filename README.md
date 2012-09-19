@@ -41,7 +41,7 @@ nature. The intention is to provide a way to allow Ruby developers to write
 applications that use a database, but don't use an ORM (*scoff!*).
 
 Or perhaps you're actually writing the next kick-ass ORM? Either way, RDO
-just talks lets you talk directly to your database.
+just lets you talk directly to your database.
 
 ## Meh, what does it provide?
 
