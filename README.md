@@ -241,7 +241,7 @@ need to escape some input yourself, however. For that, you can call #quote.
 conn.execute("INSERT INTO users (name) VALUES ('#{conn.quote(params[:name])}')")
 ```
 
-### Column names with whitepsace in them
+### Column names with whitespace in them
 
 RDO uses Symbols as keys in the hashes that represent data rows. Most of the
 time this is desirable. If you query for something that returns field names
