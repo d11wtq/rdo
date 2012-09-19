@@ -32,7 +32,7 @@ end
 conn.close
 ```
 
-## What is it not?
+## Why is your ORM so shit?
 
 RDO provides access to a number of RDBMS's. It allows you to query using SQL
 and issue commands using DDL, as thinly as is necessary. It is absolutely not,
