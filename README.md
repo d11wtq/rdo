@@ -176,7 +176,7 @@ result = conn.execute(
 p result.insert_id       #=> 5088
 p result.execution_time  #=> 0.0000587
 
-# the RETURNING clause is passed by in the result, like a read query
+# fields from the RETURNING clause are included in the result, like a SELECT
 result.each do |row|
   p row[:id] #=> 5088
 end
@@ -189,7 +189,8 @@ include any error messaage provided by the DBMS.
 
 There is no difference in the interface for reads or writes. Just call
 the #execute method—which always returns a RDO::Result—for both.
-RDO::Result includes the Enumerable module.
+RDO::Result includes the Enumerable module. Some operations, such as #count
+may be optimized by the driver.
 
 ``` ruby
 result = conn.execute("SELECT id, name FROM users WHERE created_at > ?", 1.week.ago)
@@ -232,7 +233,7 @@ include any error messaage provided by the DBMS.
 
 ### Tread carefully, there be danger ahead
 
-While driver developers are expected to provide a suitable implememtation,
+While driver developers are expected to provide a suitable implementation,
 it is generally riskier to use #quote and interpolate inputs directly into
 the SQL, than it is to use bind parameters. There are times where you might
 need to escape some input yourself, however. For that, you can call #quote.
@@ -245,7 +246,7 @@ conn.execute("INSERT INTO users (name) VALUES ('#{conn.quote(params[:name])}')")
 
 RDO uses Symbols as keys in the hashes that represent data rows. Most of the
 time this is desirable. If you query for something that returns field names
-containing spaces, or punctation, you need to convert a String to a Symbol
+containing spaces, or punctuation, you need to convert a String to a Symbol
 using #to_sym or #intern. Or wrap the Hash with a Mash of some sort.
 
 ``` ruby
