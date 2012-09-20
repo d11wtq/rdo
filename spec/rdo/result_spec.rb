@@ -13,6 +13,10 @@ describe RDO::Result do
       result.each{|row| tuples << row}
       tuples.should == [{id: 7}, {id: 42}]
     end
+
+    it "returns the result" do
+      result.each.should equal(result)
+    end
   end
 
   describe "#info" do
