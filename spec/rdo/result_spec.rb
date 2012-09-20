@@ -55,6 +55,24 @@ describe RDO::Result do
     end
   end
 
+  describe "#affected_rows" do
+    context "when provided in the info" do
+      let(:result) { RDO::Result.new([], affected_rows: 3) }
+
+      it "returns the value from the info" do
+        result.affected_rows.should == 3
+      end
+    end
+
+    context "when not provided in the info" do
+      let(:result) { RDO::Result.new([]) }
+
+      it "returns nil" do
+        result.insert_id.should be_nil
+      end
+    end
+  end
+
   describe "#count" do
     context "when provided in the info" do
       let(:result) { RDO::Result.new([{id: 7}, {id: 42}], count: 50) }

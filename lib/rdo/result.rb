@@ -51,6 +51,14 @@ module RDO
       end
     end
 
+    # Return the number of rows affected by the query.
+    #
+    # @return [Fixnum]
+    #   the number of rows affected
+    def affected_rows
+      info[:affected_rows].to_i
+    end
+
     # Get the number of rows in the result.
     #
     # Many drivers provide the count, otherwise it will be computed at runtime.
