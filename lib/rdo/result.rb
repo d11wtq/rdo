@@ -36,6 +36,21 @@ module RDO
       @info
     end
 
+    # Return the inserted row ID.
+    #
+    # For some drivers this requires that a RETURNING clause by used in SQL.
+    # It may be more desirable to simply check the rows in the result.
+    #
+    # @return [Object]
+    #   the ID of the record just inserted, or nil
+    def insert_id
+      if info.key?(:insert_id)
+        info[:insert_id]
+      elsif return_value = first
+        return_value.values.first
+      end
+    end
+
     # Get the number of rows in the result.
     #
     # Many drivers provide the count, otherwise it will be computed at runtime.

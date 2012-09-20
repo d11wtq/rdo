@@ -27,6 +27,34 @@ describe RDO::Result do
     end
   end
 
+  describe "#insert_id" do
+    context "when provided in the info" do
+      let(:result) { RDO::Result.new([], insert_id: 21) }
+
+      it "returns the ID from the info" do
+        result.insert_id.should == 21
+      end
+    end
+
+    context "when not provided in the info" do
+      context "and there are tuples" do
+        let(:result) { RDO::Result.new([{id: 6, name: "bob"}]) }
+
+        it "infers from the tuples" do
+          result.insert_id.should == 6
+        end
+      end
+
+      context "and there are no tuples" do
+        let(:result) { RDO::Result.new([]) }
+
+        it "returns nil" do
+          result.insert_id.should be_nil
+        end
+      end
+    end
+  end
+
   describe "#count" do
     context "when provided in the info" do
       let(:result) { RDO::Result.new([{id: 7}, {id: 42}], count: 50) }
