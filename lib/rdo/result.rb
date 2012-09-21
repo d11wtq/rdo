@@ -46,8 +46,20 @@ module RDO
     def insert_id
       if info.key?(:insert_id)
         info[:insert_id]
-      elsif return_value = first
-        return_value.values.first
+      else
+        first_value
+      end
+    end
+
+    # If only one column and one row is expected in the result, fetch it.
+    #
+    # If no rows were returned, this method returns nil.
+    #
+    # @return [Object]
+    #   a single value at the first column in the first row of the result
+    def first_value
+      if row = first
+        row.values.first
       end
     end
 

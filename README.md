@@ -257,6 +257,19 @@ p result.first["The Meaning".intern]
 I weighed up the possibility of using a custom data type, but I prefer core
 ruby types unless there's an overwhelming reason to use a custom type, sorry.
 
+### Selecting just a single value
+
+RDO::Result has a #first_value method for convenience if you are only
+selecting one row and one column.
+
+``` ruby
+p conn.execute("SELECT count(true) FROM users").first_value #=> 5088
+```
+
+This method returns nil if there are no rows, so if you need to distinguish
+between NULL and no rows, you will need to check the result contents the
+longer way around.
+
 ## Contributing
 
 The more drivers that RDO has support for, the better. Writing drivers for

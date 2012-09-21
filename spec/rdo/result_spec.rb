@@ -96,4 +96,22 @@ describe RDO::Result do
       end
     end
   end
+
+  describe "#first_value" do
+    context "when there are tuples" do
+      let(:result) { RDO::Result.new([{id: 6, name: "bob"}]) }
+
+      it "reads the first column in the first tuple" do
+        result.first_value.should == 6
+      end
+    end
+
+    context "when there are no tuples" do
+      let(:result) { RDO::Result.new([]) }
+
+      it "returns nil" do
+        result.first_value.should be_nil
+      end
+    end
+  end
 end
