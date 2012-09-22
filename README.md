@@ -273,20 +273,19 @@ This method returns nil if there are no rows, so if you need to distinguish
 between NULL and no rows, you will need to check the result contents the
 longer way around.
 
-### Dealing with dates and times
+### Dates, times and time zones, oh my!
 
-Dates and times are always fun, right? RDO doesn't try to get clever with
-dates and times when it does type casting. When a time zone is specified by
-the server in the output format, it will be used (e.g. PostgreSQL timestamptz
-fields are fine). When no time zone is specified, RDO simply uses the local
-time on the client side. This means that if the server is in a different time
-zone to where you ruby program is running, you may need to account for time
-zone offsets. It would be prudent of RDO to attempt to perform such
-conversions, but that is fraught with a plethora of issues and simply cannot
-work in all cases across all databases.
+Time zones are always fun, right?
 
-It would be wise to inform the database what time zone your Ruby program is
-running in, so that it can provide time outputs in your time zone.
+RDO doesn't try to get clever with dates and times when it does type casting.
+When a time zone is specified by the server in the output format, it will be
+used (e.g. PostgreSQL timestamptz fields are fine). When no time zone is
+specified, RDO simply uses the local time on the client side. This means that
+if the server is in a different time zone to where you ruby program is
+running, you may need to account for time zone offsets. It would be prudent
+of RDO to attempt to perform such conversions, but that is fraught with
+issues and simply cannot work in all cases across all databases. You should
+use the DBMS features for this instead.
 
 For example, in PostgreSQL you can do this using SET TIME ZONE. A portable
 solution retrieves the information from DateTime.
@@ -297,6 +296,9 @@ conn.execute("SET TIME ZONE interval ? hour to minute", DateTime.now.zone)
 ```
 
 PostgreSQL now provides times converted to be in your local time zone.
+
+**NOTE:** This philosophy is currently under review and the impetus may be
+placed on driver developers to ensure times are correct. Fun, fun, fun.
 
 ## Contributing
 
