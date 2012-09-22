@@ -283,7 +283,7 @@ When sending pull requests, please use topic branches—don't send a pull
 request from the master branch of your fork, as that may change
 unintentionally.
 
-### Write a driver for RDO
+### Writing a driver for RDO
 
 The more drivers that RDO has support for, the better. Writing drivers for
 RDO is quite painless. They are just thin wrappers around the C API for the
