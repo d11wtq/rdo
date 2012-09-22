@@ -6,7 +6,7 @@ interface. Where a feature is not natively supported by the DBMS—for example,
 prepared statements—it is seamlessly emulated, so you don't need to code
 around it.
 
-It targets Ruby versions 1.9 and newer.
+It targets **Ruby version 1.9** and newer.
 
 ``` ruby
 require "rdo"
