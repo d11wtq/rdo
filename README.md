@@ -275,15 +275,6 @@ longer way around.
 
 ## Contributing
 
-The more drivers that RDO has support for, the better. Writing drivers for
-RDO is quite painless. They are just thin wrappers around the C API for the
-DBMS, which conform to RDO's interface. Take a look at one of the existing
-drivers to get an idea how to do that. Because one person could not possibly
-maintain drivers for all conceivable DBMS's, it is better that different
-developers write and maintain different drivers. If you have written a driver
-for RDO, please fork this git repo and edit this README to list it, then send
-a pull request. That way others will find it more easily.
-
 If you find a bug in RDO, send a pull request if you think you can fix it.
 Your contribution will be recognized here. If you don't know how to fix it,
 file an issue in the issue tracker on GitHub.
@@ -291,6 +282,24 @@ file an issue in the issue tracker on GitHub.
 When sending pull requests, please use topic branches—don't send a pull
 request from the master branch of your fork, as that may change
 unintentionally.
+
+### Write a driver for RDO
+
+The more drivers that RDO has support for, the better. Writing drivers for
+RDO is quite painless. They are just thin wrappers around the C API for the
+DBMS, which conform to RDO's interface.
+
+Some of the more boilerplate things you'd normally have to do are covered by
+C macros in the util/macros.h file you'll find in this repository. Copy that
+file to your own project and include it for one-line type conversions etc.
+Take a look at one of the existing drivers to get an idea how to write a
+driver.
+
+Because one person could not possibly maintain drivers for all conceivable
+DBMS's, it is better that different developers write and maintain different
+drivers. If you have written a driver for RDO, please fork this git repo and
+edit this README to list it, then send a pull request. That way others will
+find it more easily.
 
 ## Copyright & Licensing
 
