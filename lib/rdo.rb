@@ -9,6 +9,7 @@ require "rdo/version"
 require "rdo/exception"
 require "rdo/connection"
 require "rdo/result"
+require "rdo/util"
 
 module RDO
   class << self
