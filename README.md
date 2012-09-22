@@ -172,7 +172,8 @@ p result.affected_rows #=> 5087
 
 result = conn.execute(
   "INSERT INTO users (name, created_at) VALUES (?, ?) RETURNING id",
-  "Jimbo Baggins"
+  "Jimbo Baggins",
+  Time.now
 )
 
 p result.insert_id       #=> 5088
