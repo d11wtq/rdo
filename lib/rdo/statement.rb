@@ -15,7 +15,7 @@ module RDO
   class Statement
     extend Forwardable
 
-    def_delegators :@executor, :connection, :command, :execute
+    def_delegators :@executor, :command, :execute
 
     # Initialize a new Statement wrapping the given StatementExecutor.
     #

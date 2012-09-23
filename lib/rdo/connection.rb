@@ -62,7 +62,7 @@ module RDO
           "Unregistered driver #{@options[:driver].inspect}"
       end
 
-      @driver = self.class.drivers[options[:driver]].new(@options)
+      @driver = self.class.drivers[@options[:driver]].new(@options)
       @driver.open or raise RDO::Exception,
         "Unable to connect, but the driver did not provide a reason"
     end
