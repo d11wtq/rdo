@@ -6,6 +6,7 @@
 ##
 
 require "uri"
+require "cgi"
 require "forwardable"
 
 module RDO
@@ -91,14 +92,20 @@ module RDO
     def parse_connection_uri(str)
       uri = URI.parse(str.to_s)
       normalize_options(
-        driver:   uri.scheme,
-        host:     uri.host,
-        port:     uri.port,
-        path:     uri.path,
-        database: uri.path.to_s.sub("/", ""),
-        user:     uri.user,
-        password: uri.password
+        {
+          driver:   uri.scheme,
+          host:     uri.host,
+          port:     uri.port,
+          path:     uri.path,
+          database: uri.path.to_s.sub("/", ""),
+          user:     uri.user,
+          password: uri.password
+        }.merge(parse_query_string(uri.query))
       )
+    end
+
+    def parse_query_string(str)
+      str.nil? ? {} : Hash[CGI.parse(str).map{|k,v| [k, v.size == 1 ? v.first : v]}]
     end
   end
 end
