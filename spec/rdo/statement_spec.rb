@@ -4,15 +4,6 @@ describe RDO::Statement do
   let(:executor) { double(:executor) }
   let(:stmt)     { RDO::Statement.new(executor) }
 
-  describe "#connection" do
-    let(:connection) { stub(:connection) }
-
-    it "delegates to the executor" do
-      executor.should_receive(:connection).and_return(connection)
-      stmt.connection.should == connection
-    end
-  end
-
   describe "#command" do
     let(:command) { "SELECT * FROM users" }
 

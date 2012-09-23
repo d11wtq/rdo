@@ -12,7 +12,6 @@ module RDO
   # The #execute method simply delegates back to the connection object.
   class EmulatedStatementExecutor
     attr_reader :command
-    attr_reader :connection
 
     # Initialize a new statement executor for the given connection & command.
     #
@@ -31,7 +30,7 @@ module RDO
     # @param [Object...] args
     #   bind parameters to use in place of '?'
     def execute(*args)
-      connection.execute(command, *args)
+      @connection.execute(command, *args)
     end
   end
 end
