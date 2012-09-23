@@ -154,3 +154,17 @@
  *   the boolean representation
  */
 #define RDO_BOOL(s) ((s[0] == 't') ? Qtrue : Qfalse)
+
+/**
+ * Wrap the given StatementExecutor in a RDO::Statement.
+ *
+ * @param VALUE
+ *   any object that responds to #command and #execute
+ *
+ * @return VALUE
+ *   an RDO::Statement
+ */
+#define RDO_STATEMENT(executor) ( \
+    rb_funcall(rb_path2class("RDO::Statement"), \
+      rb_intern("new"), 1, executor) \
+    )
