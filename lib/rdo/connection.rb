@@ -80,7 +80,9 @@ module RDO
     def normalize_options(options)
       case options
       when Hash
-        Hash[options.map{|k,v| [k.respond_to?(:to_sym) ? k.to_sym : k, v]}]
+        Hash[options.map{|k,v| [k.respond_to?(:to_sym) ? k.to_sym : k, v]}].tap do |opts|
+          opts[:driver] = opts[:driver].to_s if opts[:driver]
+        end
       when String, URI
         parse_connection_uri(options)
       else
