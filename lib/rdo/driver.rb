@@ -101,7 +101,7 @@ module RDO
     #
     # This should be avoided where the driver natively supports bind parameters.
     #
-    # Drivers SHOULD override this with a RDBMS-specific solution.
+    # Drivers MUST override this with a RDBMS-specific solution.
     #
     # @param [Object] value
     #   the value to quote
@@ -109,7 +109,6 @@ module RDO
     # @return [String]
     #   a safely escaped value
     def quote(value)
-      value
     end
 
     private
