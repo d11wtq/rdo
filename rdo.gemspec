@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/rdo/version', __FILE__)
+require File.expand_path('../lib/rdo/version', FILE)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["d11wtq"]
@@ -17,21 +17,15 @@ Gem::Specification.new do |gem|
   Ruby syntax, while supporting all the functionality you'd expect from a robust
   database connection library:
 
-  <ul>
-    <li><strong>Consistent API</strong> to connect to various DBMS's</li>
-    <li><strong>Type casting</strong> to Ruby types</li>
-    <li><strong>Time zone handling</strong> (via the DBMS, not via some crazy
-      time logic in Ruby)</li>
-    <li><strong>Native bind values</strong> parameterization of queries, where
-      supported by the DBMS</li>
-    <li><strong>Buffered result sets</strong> (i.e. cursors, to avoid
-      exhausting memory)</li>
-    <li>Retrieve query info from executed commands (e.g. affected rows)</li>
-    <li><strong>Access RETURNING values</strong> just like any read query</li>
-    <li><strong>Native prepared statements</strong> where supported, emulated
-      where not</li>
-    <li>Results given using simple <strong>core Ruby data types</strong></li>
-  </ul>
+    * Consistent API to connect to various DBMS's
+    * Type casting to Ruby types
+    * Time zone handling (via the DBMS, not via some crazy time logic in Ruby)
+    * Native bind values parameterization of queries, where supported by the DBMS
+    * Buffered result sets (i.e. cursors, to avoid exhausting memory)
+    * Retrieve query info from executed commands (e.g. affected rows)
+    * Access RETURNING values just like any read query
+    * Native prepared statements where supported, emulated where not
+    * Results given using simple core Ruby data types
 
   == RDBMS Support
 
