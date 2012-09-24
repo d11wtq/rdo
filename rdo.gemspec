@@ -17,20 +17,21 @@ Gem::Specification.new do |gem|
   Ruby syntax, while supporting all the functionality you'd expect from a robust
   database connection library:
 
-    - Connect to different types of RDBMS in a consistent way
-    - Type casting
-    - Safe parameterization of queries
-    - Buffered query results
-    - Fetching meta data from executed commands
-    - Access RETURNING values just like any read query
-    - Prepared statements (emulated where no native support exists)
-    - Simple core ruby data types
+    - **Consistent API** to connect to various DBMS's
+    - **Type casting** to Ruby types
+    - **Time zone handling** (via the DBMS, not via some crazy time logic in Ruby)
+    - **Native bind values** parameterization of queries, where supported by the DBMS
+    - **Buffered result sets** (i.e. cursors, to avoid exhausting memory)
+    - Retrieve query info from executed commands (e.g. affected rows)
+    - **Access RETURNING values** just like any read query
+    - **Native prepared statements** where supported, emulated where not
+    - Results given using simple **core Ruby data types**
 
-  === RDBMS Support
+  == RDBMS Support
 
   Support for each RDBMS is provided in separate gems, so as to minimize the
-  installation requirements. Many gems are maintained by separate users who
-  work more closely with those RDBMS's.
+  installation requirements and to facilitate the maintenace of each driver. Many
+  gems are maintained by separate users who work more closely with those RDBMS's.
 
   Due to the nature of this gem, most of the nitty-gritty code is actually
   written in C.
