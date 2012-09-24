@@ -94,6 +94,7 @@ And then execute:
       <th>URI Schemes</th>
       <th>Gem</th>
       <th>Author</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
@@ -102,18 +103,21 @@ And then execute:
       <td>sqlite</td>
       <td><a href="https://github.com/d11wtq/rdo-sqlite">rdo-sqlite</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
+      <td>In development</td>
     </tr>
     <tr>
       <th>PostgreSQL</th>
       <td>postgresql, postgres</td>
       <td><a href="https://github.com/d11wtq/rdo-postgres">rdo-postgres</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
+      <td>Published</td>
     </tr>
     <tr>
       <th>MySQL</th>
       <td>mysql</td>
       <td><a href="https://github.com/d11wtq/rdo-mysql">rdo-mysql</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
+      <td>Pending development</td>
     </tr>
   </tbody>
 </table>
@@ -146,8 +150,7 @@ RDO will disconnect automatically when the connection is garbage-collected,
 or when the program exits, but if you need to disconnect explicitly,
 call #close. It is safe to call this even if the connection is already closed.
 
-Call #open to re-connect after closing a connection, for example when forking
-child processes.
+If you have called #close, say before forking, call #open to re-connect.
 
 ``` ruby
 conn.close
