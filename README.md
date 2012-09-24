@@ -141,6 +141,8 @@ conn = RDO.connect("postgresql://user:pass@host:port/db_name?encoding=utf-8")
 p conn.open? #=> true
 ```
 
+For semantic reasons, #connect is aliased to #open.
+
 If it is not possible to establish a connection an RDO::Exception is raised,
 which should provide any reason given by the DBMS.
 
@@ -158,6 +160,18 @@ p conn.open? #=> false
 
 conn.open
 p conn.open? #=> true
+```
+
+### One-time use connections
+
+If you pass a block to RDO.connect, RDO yields the connection into the block,
+returns the result of the block, the closes the connection.
+
+``` ruby
+puts RDO.open("sqlite:some.db") do |c|
+  c.execute("SELECT value FROM config WHERE name = ?", "api_key").first_value
+end
+# => "EXAMPLE_KEY"
 ```
 
 ### Performing non-read commands

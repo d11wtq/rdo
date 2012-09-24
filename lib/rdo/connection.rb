@@ -92,18 +92,36 @@ module RDO
     end
 
     def parse_connection_uri(str)
-      uri = URI.parse(str.to_s)
+      uri = # handle e.g. sqlite: and sqlite:// (empty host and path)
+        if str =~ %r{\A[a-z0-9_\+-]+:\Z}i
+          URI.parse(str.to_s + "//rdo-spoof").tap{|u| u.host = nil}
+        elsif str =~ %r{\A[a-z0-9_\+-]+://\Z}i
+          URI.parse(str.to_s + "rdo-spoof").tap{|u| u.host = nil}
+        else
+          URI.parse(str.to_s)
+        end
+
       normalize_options(
         {
           driver:   uri.scheme,
           host:     uri.host,
           port:     uri.port,
-          path:     uri.path,
-          database: uri.path.to_s.sub("/", ""),
+          path:     extract_uri_path(uri),
+          database: extract_uri_path(uri).to_s.sub("/", ""),
           user:     uri.user,
           password: uri.password
-        }.merge(parse_query_string(uri.query))
+        }.merge(parse_query_string(extract_uri_query(uri)))
       )
+    end
+
+    def extract_uri_path(uri)
+      return uri.path unless uri.opaque
+      uri.opaque.sub(/\?.*\Z/, "")
+    end
+
+    def extract_uri_query(uri)
+      return uri.query unless uri.opaque
+      uri.opaque.sub(/\A.*?\?/, "")
     end
 
     def parse_query_string(str)

@@ -17,8 +17,13 @@ require "rdo/util"
 module RDO
   class << self
     # Establish a connection to the RDBMS.
+    # The connection will be returned open.
     #
     # The needed driver must be loaded before calling this.
+    #
+    # If a block is given, the connection is passed to the block and then
+    # closed at the end of the block, before this method finally returns
+    # the result of the block.
     #
     # @param [Object] options
     #   either a connection URI string, or an option Hash
@@ -26,7 +31,18 @@ module RDO
     # @return [Connection]
     #   a Connection for the required driver
     def connect(options)
-      Connection.new(options)
+      if block_given?
+        begin
+          c = Connection.new(options)
+          yield c
+        ensure
+          c.close unless c.nil?
+        end
+      else
+        Connection.new(options)
+      end
     end
+
+    alias_method :open, :connect
   end
 end
