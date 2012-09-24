@@ -10,22 +10,28 @@ Gem::Specification.new do |gem|
 
   If you're building something in Ruby that needs access to a database, you may
   opt to use an ORM like ActiveRecord, DataMapper or Sequel. But if your needs
-  don't fit well with an ORM (maybe you're even writing an ORM?) then you'll
+  don't fit well with an ORM—maybe you're even writing an ORM—then you'll
   need some other way of talking to your database.
 
   RDO provides a common interface to a number of RDBMS backends, using a clean
   Ruby syntax, while supporting all the functionality you'd expect from a robust
   database connection library:
 
-  * __Consistent API__ to connect to various DBMS's
-  * __Type casting__ to Ruby types
-  * __Time zone handling__ (via the DBMS, not via some crazy time logic in Ruby)
-  * __Native bind values__ parameterization of queries, where supported by the DBMS
-  * __Buffered result sets__ (i.e. cursors, to avoid exhausting memory)
-  * Retrieve query info from executed commands (e.g. affected rows)
-  * __Access RETURNING values__ just like any read query
-  * __Native prepared statements__ where supported, emulated where not
-  * Results given using simple __core Ruby data types__
+  <ul>
+    <li><strong>Consistent API</strong> to connect to various DBMS's</li>
+    <li><strong>Type casting</strong> to Ruby types</li>
+    <li><strong>Time zone handling</strong> (via the DBMS, not via some crazy
+      time logic in Ruby)</li>
+    <li><strong>Native bind values</strong> parameterization of queries, where
+      supported by the DBMS</li>
+    <li><strong>Buffered result sets</strong> (i.e. cursors, to avoid
+      exhausting memory)</li>
+    <li>Retrieve query info from executed commands (e.g. affected rows)</li>
+    <li><strong>Access RETURNING values</strong> just like any read query</li>
+    <li><strong>Native prepared statements</strong> where supported, emulated
+      where not</li>
+    <li>Results given using simple <strong>core Ruby data types</strong></li>
+  </ul>
 
   == RDBMS Support
 
