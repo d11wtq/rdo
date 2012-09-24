@@ -17,15 +17,15 @@ Gem::Specification.new do |gem|
   Ruby syntax, while supporting all the functionality you'd expect from a robust
   database connection library:
 
-   * __Consistent API__ to connect to various DBMS's
-   * __Type casting__ to Ruby types
-   * __Time zone handling__ (via the DBMS, not via some crazy time logic in Ruby)
-   * __Native bind values__ parameterization of queries, where supported by the DBMS
-   * __Buffered result sets__ (i.e. cursors, to avoid exhausting memory)
-   * Retrieve query info from executed commands (e.g. affected rows)
-   * __Access RETURNING values__ just like any read query
-   * __Native prepared statements__ where supported, emulated where not
-   * Results given using simple __core Ruby data types__
+  * __Consistent API__ to connect to various DBMS's
+  * __Type casting__ to Ruby types
+  * __Time zone handling__ (via the DBMS, not via some crazy time logic in Ruby)
+  * __Native bind values__ parameterization of queries, where supported by the DBMS
+  * __Buffered result sets__ (i.e. cursors, to avoid exhausting memory)
+  * Retrieve query info from executed commands (e.g. affected rows)
+  * __Access RETURNING values__ just like any read query
+  * __Native prepared statements__ where supported, emulated where not
+  * Results given using simple __core Ruby data types__
 
   == RDBMS Support
 
