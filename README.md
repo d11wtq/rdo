@@ -37,7 +37,7 @@ conn.close
 ## Why your ORM so shit?
 
 RDO provides access to a number of RDBMS's. It allows you to query using SQL
-and issue commands using DDL, as thinly as is necessary. It is absolutely not,
+and other things using DDL, as thinly as is necessary. It is absolutely not,
 nor is it trying to be an SQL abstraction layer, an ORM or anything of that
 nature. The intention is to provide a way to allow Ruby developers to write
 applications that use a database, but don't use an ORM (*scoff!*).
