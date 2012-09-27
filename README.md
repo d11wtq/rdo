@@ -165,7 +165,7 @@ p conn.open? #=> true
 ### One-time use connections
 
 If you pass a block to RDO.connect, RDO yields the connection into the block,
-returns the result of the block, the closes the connection.
+returns the result of the block, then closes the connection.
 
 ``` ruby
 puts RDO.open("sqlite:some.db") do |c|
@@ -254,8 +254,8 @@ include any error messaage provided by the DBMS.
 ### Tread carefully, there be danger ahead
 
 While driver developers are expected to provide a suitable implementation,
-it is generally riskier to use #quote and interpolate inputs directly into
-the SQL, than it is to use bind parameters. There are times where you might
+it is generally riskier to escape and interpolate inputs directly into the
+SQL than it is to use bind parameters. There are times where you might
 need to escape some input yourself, however. For that, you can call #quote.
 
 ``` ruby
@@ -299,6 +299,10 @@ file an issue in the issue tracker on GitHub.
 When sending pull requests, please use topic branches—don't send a pull
 request from the master branch of your fork, as that may change
 unintentionally.
+
+I haven't looked at what I need to change to have the drivers compile on
+Windows yet, but I will do. If anybody beats me to it, pull requests will
+be gladly accepted! I'll probably add some thin JDBC wrappers for jRuby.
 
 ### Writing a driver for RDO
 
