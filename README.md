@@ -100,10 +100,10 @@ And then execute:
   <tbody>
     <tr>
       <th>SQLite</th>
-      <td>sqlite</td>
+      <td>sqlite, sqlite3</td>
       <td><a href="https://github.com/d11wtq/rdo-sqlite">rdo-sqlite</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
-      <td>In development</td>
+      <td>Published</td>
     </tr>
     <tr>
       <th>PostgreSQL</th>
