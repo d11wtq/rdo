@@ -117,7 +117,7 @@ And then execute:
       <td>mysql</td>
       <td><a href="https://github.com/d11wtq/rdo-mysql">rdo-mysql</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
-      <td>Pending development</td>
+      <td>In development</td>
     </tr>
   </tbody>
 </table>
