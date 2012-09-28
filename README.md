@@ -6,7 +6,7 @@ interface. Where a feature is not natively supported by the DBMS—for example,
 prepared statements—it is seamlessly emulated, so you don't need to code
 around it.
 
-It targets **Ruby version 1.9** and newer.
+It targets **Ruby 1.9** and newer.
 
 [![Build Status](https://secure.travis-ci.org/d11wtq/rdo.png?branch=master)](http://travis-ci.org/d11wtq/rdo)
 
