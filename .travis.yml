@@ -1,0 +1,7 @@
+language: ruby
+script: "bundle exec rspec spec"
+rvm:
+  - 1.9.2
+  - 1.9.3
+notifications:
+  email: chris@w3style.co.uk
