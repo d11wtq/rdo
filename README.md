@@ -109,7 +109,6 @@ And then execute:
       <td><a href="https://github.com/d11wtq/rdo-sqlite">rdo-sqlite</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
       <td>
-        Published
         <img src="https://secure.travis-ci.org/d11wtq/rdo-sqlite.png?branch=master"
           alt="Build Status" title="Build Status" />
       </td>
@@ -120,7 +119,6 @@ And then execute:
       <td><a href="https://github.com/d11wtq/rdo-postgres">rdo-postgres</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
       <td>
-        Published
         <img src="https://secure.travis-ci.org/d11wtq/rdo-postgres.png?branch=master"
           alt="Build Status" title="Build Status" />
       </td>
