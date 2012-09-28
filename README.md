@@ -8,6 +8,8 @@ around it.
 
 It targets **Ruby version 1.9** and newer.
 
+[![Build Status](https://secure.travis-ci.org/d11wtq/rdo.png?branch=master)](http://travis-ci.org/d11wtq/rdo)
+
 <img src="https://secure.travis-ci.org/d11wtq/rdo.png?branch=master"
   alt="Travis CI Status" title="Travis CI Status" />
 
@@ -106,14 +108,22 @@ And then execute:
       <td>sqlite, sqlite3</td>
       <td><a href="https://github.com/d11wtq/rdo-sqlite">rdo-sqlite</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
-      <td>Published</td>
+      <td>
+        Published
+        <img src="https://secure.travis-ci.org/d11wtq/rdo-sqlite.png?branch=master"
+          alt="Build Status" title="Build Status" />
+      </td>
     </tr>
     <tr>
       <th>PostgreSQL</th>
       <td>postgresql, postgres</td>
       <td><a href="https://github.com/d11wtq/rdo-postgres">rdo-postgres</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
-      <td>Published</td>
+      <td>
+        Published
+        <img src="https://secure.travis-ci.org/d11wtq/rdo-postgres.png?branch=master"
+          alt="Build Status" title="Build Status" />
+      </td>
     </tr>
     <tr>
       <th>MySQL</th>
