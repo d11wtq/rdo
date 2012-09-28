@@ -8,6 +8,9 @@ around it.
 
 It targets **Ruby version 1.9** and newer.
 
+<img src="https://secure.travis-ci.org/d11wtq/rdo.png?branch=master"
+  alt="Travis CI Status" title="Travis CI Status" />
+
 ``` ruby
 require "rdo"
 require "rdo-postgres"
