@@ -17,7 +17,8 @@ module RDO
     end
 
     def close
-      !(@open = false)
+      @open = false
+      true
     end
 
     def execute(stmt, *args)

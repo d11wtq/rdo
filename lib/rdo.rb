@@ -14,6 +14,9 @@ require "rdo/emulated_statement_executor"
 require "rdo/result"
 require "rdo/util"
 
+# c extension
+require "rdo/rdo"
+
 module RDO
   class << self
     # Establish a connection to the RDBMS.

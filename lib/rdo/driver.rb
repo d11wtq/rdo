@@ -99,6 +99,9 @@ module RDO
 
     # Escape a given value for safe interpolation into a statement.
     #
+    # The value may be any type of Object and will be formatted to a String
+    # as needed.
+    #
     # This should be avoided where the driver natively supports bind parameters.
     #
     # Drivers MUST override this with a RDBMS-specific solution.
@@ -109,6 +112,33 @@ module RDO
     # @return [String]
     #   a safely escaped value
     def quote(value)
+    end
+
+    protected
+
+    # Replace the values in params with the '?' markers in sql.
+    #
+    # This method exists for drivers that don't natively support bind
+    # parameters, or don't fully support them (e.g. MySQL). The
+    # implementation is done in C, since the scanning routine is
+    # considerably faster.
+    #
+    # Each value in params is processed according to its type:
+    #
+    #   - NilClass, Fixnum, Float, inserted as literals (NULL or a number)
+    #   - String passed through #quote, then wrapped in single quotes
+    #   - All other objects converted to String then processed as a String
+    #
+    # @param [String] sql
+    #   a String of SQL including '?' markers
+    #
+    # @param [Array] params
+    #   an Array of objects to interpolate
+    #
+    # @return [String]
+    #   the SQL to be executed
+    def interpolate(sql, params)
+      # implemented in ext/rdo/rdo.c
     end
 
     private

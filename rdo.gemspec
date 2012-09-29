@@ -48,6 +48,8 @@ Gem::Specification.new do |gem|
   gem.name          = "rdo"
   gem.require_paths = ["lib"]
   gem.version       = RDO::VERSION
+  gem.extensions    = ["ext/rdo/extconf.rb"]
 
   gem.add_development_dependency "rspec"
+  gem.add_development_dependency "rake-compiler"
 end

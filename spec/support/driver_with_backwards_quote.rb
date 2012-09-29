@@ -1,7 +1,7 @@
 require "rdo"
 
 module RDO
-  class DriverWithoutStatements < Driver
+  class DriverWithBackwardsQuote < Driver
     def open
       @open = true
     end
@@ -18,7 +18,12 @@ module RDO
     def execute(stmt, *args)
       Result.new([])
     end
+
+    def quote(obj)
+      obj.to_s.reverse
+    end
   end
 
-  Connection.register_driver(:rdo_without_stmt, DriverWithoutStatements)
+  Connection.register_driver(:rdo_with_backwards_quote, DriverWithBackwardsQuote)
 end
+
