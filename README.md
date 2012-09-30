@@ -36,18 +36,18 @@ end
 conn.close
 ```
 
-## Why your ORM so shit?
+## Strange looking ORM you have there, Sir
 
-RDO provides access to a number of RDBMS's. It allows you to query using SQL
-and other things using DDL, as thinly as is necessary. It is absolutely not,
-nor is it trying to be an SQL abstraction layer, an ORM or anything of that
-nature. The intention is to provide a way to allow Ruby developers to write
-applications that use a database, but don't use an ORM (*scoff!*).
+It's not an ORM. RDO provides access to a number of RDBMS's. It allows you to
+query using pure SQL/DDL commands, as thinly as is necessary. It is absolutely
+not, nor is it trying to be an SQL abstraction layer, an ORM or anything of
+that nature. The intention is to provide a way to allow Ruby developers to
+write applications that use a database, but don't use an ORM (*scoff!*).
 
 Or perhaps you're actually writing the next kick-ass ORM? Either way, RDO
 just lets you talk directly to your database.
 
-## Meh, what does it provide?
+## What's the point?
 
 Let's face it, we've been writing database applications since the dark ages—
 it's not that hard. What's lacking from Ruby, however, is any consistency for
@@ -56,7 +56,7 @@ serve a different need. [DataMapper](https://github.com/datamapper/dm-core)
 has a layer underneath it called [data_objects](https://github.com/datamapper/do),
 but it isn't particularly user-friendly when used standalone and it requires
 jumping through hoops to deal with certain database RDBMS features, such as
-PostgreSQL bytea fields.
+PostgreSQL bytea fields (which, in RDO, "just work").
 
 RDO makes the following things standard:
 
@@ -65,10 +65,10 @@ RDO makes the following things standard:
   - **Prepared statements** where possible; emulated where not
   - **Type-casting** to equivalent Ruby types (e.g. Fixnum, BigDecimal,
     Float, even Array)
-  - **Buffered result sets** where possible–enumerate millions of rows
-    without memory issues
   - Access meta data after write operations, with insert IDs standardized
   - **Use simple core data types** (Hash) for reading values and field names
+
+Note that data-type support is limited to whatever the DBMS actually supports.
 
 ## Installation
 
@@ -157,6 +157,10 @@ For semantic reasons, #connect is aliased to #open.
 If it is not possible to establish a connection an RDO::Exception is raised,
 which should provide any reason given by the DBMS.
 
+You can also pass a block to #connect. This has the same semantics as passing
+a block to File#open (i.e. it passes itself to the block, returns the value
+of the block and finally closes the connection).
+
 ### Disconnecting
 
 RDO will disconnect automatically when the connection is garbage-collected,
@@ -171,18 +175,6 @@ p conn.open? #=> false
 
 conn.open
 p conn.open? #=> true
-```
-
-### One-time use connections
-
-If you pass a block to RDO.connect, RDO yields the connection into the block,
-returns the result of the block, then closes the connection.
-
-``` ruby
-puts RDO.open("sqlite:some.db") do |c|
-  c.execute("SELECT value FROM config WHERE name = ?", "api_key").first_value
-end
-# => "EXAMPLE_KEY"
 ```
 
 ### Performing non-read commands
@@ -219,7 +211,7 @@ include any error messaage provided by the DBMS.
 ### Performing read queries
 
 There is no difference in the interface for reads or writes. Just call
-the #execute method—which always returns a RDO::Result—for both.
+the #execute method in both cases. This always returns a RDO::Result.
 RDO::Result includes the Enumerable module. Some operations, such as #count
 may be optimized by the driver.
 
@@ -332,6 +324,9 @@ DBMS's, it is better that different developers write and maintain different
 drivers. If you have written a driver for RDO, please fork this git repo and
 edit this README to list it, then send a pull request. That way others will
 find it more easily.
+
+I'm particularly interested in drivers for Oracle and Microsoft SQL Server,
+though I don't personally use these.
 
 ## Copyright & Licensing
 
