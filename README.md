@@ -125,7 +125,10 @@ And then execute:
       <td>mysql</td>
       <td><a href="https://github.com/d11wtq/rdo-mysql">rdo-mysql</a></td>
       <td><a href="https://github.com/d11wtq">d11wtq</a></td>
-      <td>In development</td>
+      <td>
+        <img src="https://secure.travis-ci.org/d11wtq/rdo-mysql.png?branch=master"
+          alt="Build Status" title="Build Status" />
+      </td>
     </tr>
   </tbody>
 </table>
