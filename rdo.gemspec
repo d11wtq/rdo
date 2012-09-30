@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
     * Type casting to Ruby types
     * Time zone handling (via the DBMS, not via some crazy time logic in Ruby)
     * Native bind values parameterization of queries, where supported by the DBMS
-    * Buffered result sets (i.e. cursors, to avoid exhausting memory)
     * Retrieve query info from executed commands (e.g. affected rows)
     * Access RETURNING values just like any read query
     * Native prepared statements where supported, emulated where not
