@@ -32,12 +32,12 @@ module RDO
     #   bind parameters to use in place of '?'
     def execute(*bind_values)
       @executor.execute(*bind_values).tap do
-        if logger.level <= Logger::DEBUG
-          logger.debug("#{command} (binding %s)" % bind_values.inspect)
+        if logger.debug?
+          logger.debug("#{command}#{" <Bind: #{bind_values.inspect}>" unless bind_values.empty?}")
         end
       end
     rescue RDO::Exception => e
-      logger.fatal(e.message) if logger.level <= Logger::FATAL
+      logger.fatal(e.message) if logger.fatal?
       raise
     end
 

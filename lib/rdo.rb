@@ -13,6 +13,7 @@ require "rdo/statement"
 require "rdo/emulated_statement_executor"
 require "rdo/result"
 require "rdo/util"
+require "rdo/colored_logger"
 
 # c extension
 require "rdo/rdo"

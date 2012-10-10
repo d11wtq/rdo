@@ -96,12 +96,12 @@ module RDO
     #   the result of the query
     def execute(statement, *bind_values)
       @driver.execute(statement, *bind_values).tap do
-        if logger.level <= Logger::DEBUG
-          logger.debug("#{statement} (binding %s)" % bind_values.inspect)
+        if logger.debug?
+          logger.debug("#{statement}#{" <Bind: #{bind_values.inspect}>" unless bind_values.empty?}")
         end
       end
     rescue RDO::Exception => e
-      logger.fatal(e.message) if logger.level <= Logger::FATAL
+      logger.fatal(e.message) if logger.fatal?
       raise
     end
 
