@@ -9,20 +9,20 @@ module RDO
   # This StatementExecutor is used as a fallback for prepared statements.
   #
   # If a DBMS driver does not implement prepared statements, this is used instead.
-  # The #execute method simply delegates back to the connection object.
+  # The #execute method simply delegates back to the driver.
   class EmulatedStatementExecutor
     attr_reader :command
 
-    # Initialize a new statement executor for the given connection & command.
+    # Initialize a new statement executor for the given driver & command.
     #
-    # @param [RDO::Connection] connection
-    #   the connection on which #prepare was invoked
+    # @param [RDO::Driver] driver
+    #   the Driver on which #prepare was invoked
     #
     # @param [String] command
     #   a string of SQL/DDL to execute
-    def initialize(connection, command)
-      @connection = connection
-      @command    = command
+    def initialize(driver, command)
+      @driver  = driver
+      @command = command
     end
 
     # Execute the command using the given bind values.
@@ -30,7 +30,7 @@ module RDO
     # @param [Object...] args
     #   bind parameters to use in place of '?'
     def execute(*args)
-      @connection.execute(command, *args)
+      @driver.execute(command, *args)
     end
   end
 end

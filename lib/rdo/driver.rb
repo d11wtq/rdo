@@ -68,19 +68,19 @@ module RDO
     # @param [String] statement
     #   a string of SQL or DDL, with '?' placeholders for bind parameters
     #
-    # @return [Statement]
+    # @return [StatementExecutor]
     #   a prepared statement to later be executed
     def prepare(statement)
-      Statement.new(emulated_statement_executor(statement))
+      emulated_statement_executor(statement)
     end
 
     # Execute a statement against the RDBMS.
     #
-    # The statement can either by a read, or a write operation.
+    # The statement can either be a read, or a write operation.
     # Placeholders marked by '?' may be interpolated in the statement, so
     # that bind parameters can be safely provided.
     #
-    # Where the RDBMS natively support bind parameters, this functionality is
+    # Where the RDBMS natively supports bind parameters, this functionality is
     # used; otherwise, the values are quoted using #quote.
     #
     # Drivers MUST override this.

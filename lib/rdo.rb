@@ -28,24 +28,36 @@ module RDO
     # closed at the end of the block, before this method finally returns
     # the result of the block.
     #
-    # @param [Object] options
-    #   either a connection URI string, or an option Hash
+    # @param [Object] uri
+    #   either a connection URI string, or an options Hash
+    #
+    # @param [Hash] options
+    #   if a URI is provided for the first argument, additional options may
+    #   be specified here. These may override settings in the first argument.
     #
     # @return [Connection]
     #   a Connection for the required driver
-    def connect(options)
+    def connect(uri, options = {})
       if block_given?
         begin
-          c = Connection.new(options)
+          c = Connection.new(uri, options)
           yield c
         ensure
           c.close unless c.nil?
         end
       else
-        Connection.new(options)
+        Connection.new(uri, options)
       end
     end
 
     alias_method :open, :connect
   end
+
+  # A suitable NULL device for writing nothing
+  DEV_NULL =
+    if defined? IO::NULL
+      IO::NULL
+    else
+      ENV["OS"] =~ /Windows/ ? "NUL" : "/dev/null"
+    end
 end

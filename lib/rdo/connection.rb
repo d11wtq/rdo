@@ -7,6 +7,7 @@
 
 require "uri"
 require "cgi"
+require "logger"
 require "forwardable"
 
 module RDO
@@ -41,8 +42,11 @@ module RDO
     # Options passed to initialize.
     attr_reader :options
 
+    # A Logger (from ruby stdlib)
+    attr_accessor :logger
+
     # Most instance methods are delegated to the driver
-    def_delegators :@driver, :open, :open?, :close, :execute, :prepare, :quote
+    def_delegators :@driver, :open, :open?, :close, :quote
 
     # Initialize a new Connection.
     #
@@ -50,13 +54,18 @@ module RDO
     #
     # If no suitable driver is loaded, an RDO::Exception is raised.
     #
-    # @param [Object] options
-    #   either a connection URI, or a Hash of options
+    # @param [Object] uri
+    #   either a connection URI string, or an options Hash
+    #
+    # @param [Hash] options
+    #   if a URI is provided for the first argument, additional options may
+    #   be specified here. These may override settings in the first argument.
     #
     # @return [RDO::Connection]
     #   a Connection for the given options
-    def initialize(options)
-      @options = normalize_options(options)
+    def initialize(uri, options = {})
+      @options = normalize_options(uri).merge(normalize_options(options))
+      @logger  = @options.fetch(:logger, null_logger)
 
       unless self.class.drivers.key?(@options[:driver])
         raise RDO::Exception,
@@ -66,6 +75,47 @@ module RDO
       @driver = self.class.drivers[@options[:driver]].new(@options)
       @driver.open or raise RDO::Exception,
         "Unable to connect, but the driver did not provide a reason"
+    end
+
+    # Execute a statement with the configured Driver.
+    #
+    # The statement can either be a read, or a write operation.
+    # Placeholders marked by '?' may be interpolated in the statement, so
+    # that bind parameters can be safely provided.
+    #
+    # Where the RDBMS natively supports bind parameters, this functionality is
+    # used; otherwise, the values are quoted using #quote.
+    #
+    # @param [String] statement
+    #   a string of SQL or DDL to be executed
+    #
+    # @param [Array] *bind_values
+    #   a list of parameters to substitute in the statement
+    #
+    # @return [Result]
+    #   the result of the query
+    def execute(statement, *bind_values)
+      @driver.execute(statement, *bind_values).tap do
+        if logger.level <= Logger::DEBUG
+          logger.debug("#{statement} (binding %s)" % bind_values.inspect)
+        end
+      end
+    rescue RDO::Exception => e
+      logger.fatal(e.message) if logger.level <= Logger::FATAL
+      raise
+    end
+
+    # Create a prepared statement to later be executed with some inputs.
+    #
+    # Not all drivers support this natively, but it is emulated by default.
+    #
+    # @param [String] statement
+    #   a string of SQL or DDL, with '?' placeholders for bind parameters
+    #
+    # @return [Statement]
+    #   a prepared statement to later be executed
+    def prepare(command)
+      Statement.new(@driver.prepare(command), logger)
     end
 
     private
@@ -126,6 +176,10 @@ module RDO
 
     def parse_query_string(str)
       str.nil? ? {} : Hash[CGI.parse(str).map{|k,v| [k, v.size == 1 ? v.first : v]}]
+    end
+
+    def null_logger
+      Logger.new(RDO::DEV_NULL).tap{|l| l.level = Logger::UNKNOWN}
     end
   end
 end

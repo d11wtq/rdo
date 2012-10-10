@@ -10,12 +10,14 @@ describe RDO::Driver do
   describe "#prepare" do
     let(:driver) { RDO::DriverWithoutStatements.new }
 
-    it "returns a Statement" do
-      driver.prepare("SELECT * FROM bob WHERE ?").should be_a_kind_of(RDO::Statement)
+    it "returns a StatementExecutor" do
+      driver.prepare("SELECT * FROM bob WHERE ?").
+        should be_a_kind_of(RDO::EmulatedStatementExecutor)
     end
 
     it "has the correct command" do
-      driver.prepare("SELECT * FROM bob WHERE ?").command.should == "SELECT * FROM bob WHERE ?"
+      driver.prepare("SELECT * FROM bob WHERE ?").command.
+        should == "SELECT * FROM bob WHERE ?"
     end
 
     it "calls #execute on the driver" do

@@ -15,14 +15,36 @@ module RDO
   class Statement
     extend Forwardable
 
-    def_delegators :@executor, :command, :execute
+    def_delegators :@executor, :command
 
     # Initialize a new Statement wrapping the given StatementExecutor.
     #
     # @param [Object] executor
     #   any object that responds to #execute, #connection and #command
-    def initialize(executor)
+    def initialize(executor, logger)
       @executor = executor
+      @logger   = logger
+    end
+
+    # Execute the command using the given bind values.
+    #
+    # @param [Object...] args
+    #   bind parameters to use in place of '?'
+    def execute(*bind_values)
+      @executor.execute(*bind_values).tap do
+        if logger.level <= Logger::DEBUG
+          logger.debug("#{command} (binding %s)" % bind_values.inspect)
+        end
+      end
+    rescue RDO::Exception => e
+      logger.fatal(e.message) if logger.level <= Logger::FATAL
+      raise
+    end
+
+    private
+
+    def logger
+      @logger
     end
   end
 end

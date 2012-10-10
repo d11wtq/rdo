@@ -1,4 +1,5 @@
 require "spec_helper"
+require "logger"
 
 describe RDO::Connection do
   after(:each) { RDO::Connection.drivers.clear }
@@ -193,16 +194,84 @@ describe RDO::Connection do
           and_return(result)
         connection.execute("SELECT * FROM bob WHERE ?", true).should == result
       end
+
+      context "with debug logging" do
+        before(:each) do
+          connection.logger.level = Logger::DEBUG
+          driver.stub(:execute).and_return(result)
+        end
+
+        it "logs the statement" do
+          connection.logger.should_receive(:debug).
+            with(/SELECT \* FROM bob WHERE \?.*?true/)
+          connection.execute("SELECT * FROM bob WHERE ?", true)
+        end
+      end
+
+      context "without debug logging" do
+        before(:each) do
+          connection.logger.level = Logger::INFO
+          driver.stub(:execute).and_return(result)
+        end
+
+        it "does not log the statement" do
+          connection.logger.should_not_receive(:debug)
+          connection.execute("SELECT * FROM bob WHERE ?", true)
+        end
+      end
+
+      context "when an RDO::Exception occurs" do
+        before(:each) do
+          driver.stub(:execute).and_raise(RDO::Exception.new("some error"))
+        end
+
+        context "with fatal logging" do
+          before(:each) do
+            connection.logger.level = Logger::FATAL
+          end
+
+          it "logs the error" do
+            begin
+              connection.logger.should_receive(:fatal).
+                with(/some error/)
+              connection.execute("SELECT * FROM bob WHERE ?", true)
+              fail("RDO::Exception should be raised")
+            rescue
+              # expected
+            end
+          end
+        end
+
+        context "without debug logging" do
+          before(:each) do
+            connection.logger.level = Logger::UNKNOWN
+          end
+
+          it "does not log the error" do
+            begin
+              connection.logger.should_not_receive(:fatal)
+              connection.execute("SELECT * FROM bob WHERE ?", true)
+              fail("RDO::Exception should be raised")
+            rescue
+              # expected
+            end
+          end
+        end
+      end
     end
 
     describe "#prepare" do
-      let(:stmt) { RDO::Statement.new(stub(:executor)) }
+      let(:command)  { "SELECT * FROM bob WHERE ?" }
+      let(:executor) { stub(command: command) }
 
       it "delegates to the driver" do
-        driver.should_receive(:prepare).
-          with("SELECT * FROM bob WHERE ?").
-          and_return(stmt)
-        connection.prepare("SELECT * FROM bob WHERE ?").should == stmt
+        driver.should_receive(:prepare).with(command).and_return(executor)
+        connection.prepare(command).command.should == command
+      end
+
+      it "returns a RDO::Statement" do
+        driver.stub(:prepare).and_return(executor)
+        connection.prepare(command).should be_a_kind_of(RDO::Statement)
       end
     end
 
