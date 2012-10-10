@@ -15,9 +15,9 @@ module RDO
       self.formatter =
         Proc.new do |severity, time, prog, msg|
           case severity
-          when "DEBUG" then "\033[35mSQL\033[0m \033[36m~\033[0m %s\n" % msg
-          when "FATAL" then "\033[31mERROR ~ %s\033[0m\n" % msg
-          else "%s ~ %s\n" % [severity, msg]
+          when "DEBUG" then "\033[35mSQL\033[0m \033[36m~\033[0m %s#{$/}" % msg
+          when "FATAL" then "\033[31mERROR ~ %s\033[0m#{$/}" % msg
+          else "%s ~ %s#{$/}" % [severity, msg]
           end
         end
     end
