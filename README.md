@@ -293,6 +293,16 @@ This method returns nil if there are no rows, so if you need to distinguish
 between NULL and no rows, you will need to check the result contents the
 longer way around.
 
+### Logging Statements
+
+A Logger instance (with an interface like that in Ruby stdlib) may be passed
+in the options when creating a connection. All queries will be logged with
+DEBUG severity. Errors will be logged with FATAL severity.
+
+``` ruby
+RDO.connect("postgres://user:pass@host/db", logger: Logger.new(STDOUT))
+```
+
 ## Contributing
 
 If you find a bug in RDO, send a pull request if you think you can fix it.
