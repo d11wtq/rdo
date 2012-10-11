@@ -14,6 +14,14 @@ module RDO
   # Performing these operations in C would not be any cheaper, since the data
   # must first be converted into Ruby types anyway.
   module Util
+    # A suitable NULL device for writing nothing
+    DEV_NULL =
+      if defined? IO::NULL
+        IO::NULL
+      else
+        ENV["OS"] =~ /Windows/ ? "NUL" : "/dev/null"
+      end
+
     class << self
       # Convert a String to a Float, taking into account Infinity and NaN.
       #

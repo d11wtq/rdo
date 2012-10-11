@@ -7,7 +7,6 @@
 
 require "uri"
 require "cgi"
-require "logger"
 require "forwardable"
 
 module RDO
@@ -65,7 +64,9 @@ module RDO
     #   a Connection for the given options
     def initialize(uri, options = {})
       @options = normalize_options(uri).merge(normalize_options(options))
-      @logger  = @options.fetch(:logger, null_logger)
+
+      @logger       = @options.fetch(:logger, default_logger)
+      @logger.level = @options[:log_level] if @options.key?(:log_level)
 
       unless self.class.drivers.key?(@options[:driver])
         raise RDO::Exception,
@@ -186,8 +187,8 @@ module RDO
       str.nil? ? {} : Hash[CGI.parse(str).map{|k,v| [k, v.size == 1 ? v.first : v]}]
     end
 
-    def null_logger
-      Logger.new(RDO::DEV_NULL).tap{|l| l.level = Logger::UNKNOWN}
+    def default_logger
+      ColoredLogger.new(STDOUT).tap{|l| l.level = Logger::UNKNOWN}
     end
   end
 end

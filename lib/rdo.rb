@@ -53,12 +53,4 @@ module RDO
 
     alias_method :open, :connect
   end
-
-  # A suitable NULL device for writing nothing
-  DEV_NULL =
-    if defined? IO::NULL
-      IO::NULL
-    else
-      ENV["OS"] =~ /Windows/ ? "NUL" : "/dev/null"
-    end
 end

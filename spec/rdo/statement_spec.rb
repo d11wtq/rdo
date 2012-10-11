@@ -2,7 +2,7 @@ require "spec_helper"
 require "logger"
 
 describe RDO::Statement do
-  let(:logger)   { Logger.new(RDO::DEV_NULL) }
+  let(:logger)   { Logger.new(RDO::Util::DEV_NULL) }
   let(:executor) { double(:executor) }
   let(:stmt)     { RDO::Statement.new(executor, logger) }
 

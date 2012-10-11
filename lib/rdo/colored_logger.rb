@@ -10,21 +10,25 @@ require "logger"
 module RDO
   # A Logger that outputs using color to highlight errors etc.
   class ColoredLogger < Logger
-    def formatter
-      @formatter ||=
-        Proc.new do |severity, time, prog, msg|
-          case severity
-          when "DEBUG"
-            format_sql(msg)
-          when "FATAL"
-            format_err(msg)
-          else
-            "%s ~ %s" % [severity, msg]
-          end + $/
-        end
+    def initialize(*args)
+      super
+      self.formatter = color_formatter
     end
 
     private
+
+    def color_formatter
+      Proc.new do |severity, time, prog, msg|
+        case severity
+        when "DEBUG"
+          format_sql(msg)
+        when "FATAL"
+          format_err(msg)
+        else
+          "%s ~ %s" % [severity, msg]
+        end + $/
+      end
+    end
 
     def format_sql(sql)
       "\033[35mSQL\033[0m \033[36m~\033[0m %s" % sql
