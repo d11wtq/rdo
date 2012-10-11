@@ -36,7 +36,7 @@ module RDO
         rs.info[:execution_time] ||= Time.now - t
         if logger.debug?
           logger.debug(
-            "(%.6fs) %s %s" % [
+            "(%.6f) %s %s" % [
               rs.execution_time,
               command,
               ("<Bind: #{bind_values.inspect}>" unless bind_values.empty?)
