@@ -33,7 +33,7 @@ module RDO
 
     def format_sql(sql)
       a, b = @colors.reverse!
-      "\033[#{a}mSQL\033[0m %s" % sql.sub(/\A(\(\d+\.\d+\))(.*)\Z/, "\\1 \033[#{b}m~\033[0m \\2")
+      "\033[#{a}mSQL\033[0m %s" % sql.sub(/\A(\(\d+\.\d+\))(.*)\Z/m, "\\1 \033[#{b}m~\033[0m \\2")
     end
 
     def format_err(msg)
