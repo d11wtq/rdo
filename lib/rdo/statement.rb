@@ -31,9 +31,17 @@ module RDO
     # @param [Object...] args
     #   bind parameters to use in place of '?'
     def execute(*bind_values)
-      @executor.execute(*bind_values).tap do
+      t = Time.now
+      @executor.execute(*bind_values).tap do |rs|
+        rs.info[:execution_time] ||= Time.now - t
         if logger.debug?
-          logger.debug("#{command}#{" <Bind: #{bind_values.inspect}>" unless bind_values.empty?}")
+          logger.debug(
+            "(%.6fs) %s %s" % [
+              rs.execution_time,
+              command,
+              ("<Bind: #{bind_values.inspect}>" unless bind_values.empty?)
+            ]
+          )
         end
       end
     rescue RDO::Exception => e

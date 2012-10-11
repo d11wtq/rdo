@@ -85,6 +85,14 @@ module RDO
       end
     end
 
+    # Get the time spent processing the statement.
+    #
+    # @return [Float]
+    #   the time in seconds spent executing the query
+    def execution_time
+      info[:execution_time].to_f
+    end
+
     # Iterate over all rows returned by the connection.
     #
     # For each row, a Symbol-keyed Hash is yielded into the block.

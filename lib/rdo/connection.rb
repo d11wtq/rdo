@@ -95,9 +95,17 @@ module RDO
     # @return [Result]
     #   the result of the query
     def execute(statement, *bind_values)
-      @driver.execute(statement, *bind_values).tap do
+      t = Time.now
+      @driver.execute(statement, *bind_values).tap do |rs|
+        rs.info[:execution_time] ||= Time.now - t
         if logger.debug?
-          logger.debug("#{statement}#{" <Bind: #{bind_values.inspect}>" unless bind_values.empty?}")
+          logger.debug(
+            "(%.6fs) %s%s" % [
+              rs.execution_time,
+              statement,
+              ("<Bind: #{bind_values.inspect}>" unless bind_values.empty?)
+            ]
+          )
         end
       end
     rescue RDO::Exception => e

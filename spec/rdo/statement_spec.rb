@@ -17,7 +17,7 @@ describe RDO::Statement do
 
   describe "#execute" do
     let(:executor) { double(command: "SELECT * FROM bob WHERE ?", execute: result) }
-    let(:result)   { stub(:result) }
+    let(:result)   { stub(:result, info: {}, execution_time: 0.0) }
 
     it "delegates to the executor" do
       executor.should_receive(:execute).with(1, 2).and_return(result)
