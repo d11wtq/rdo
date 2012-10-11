@@ -12,6 +12,7 @@ module RDO
   class ColoredLogger < Logger
     def initialize(*args)
       super
+      @colors = [35, 36]
       self.formatter = color_formatter
     end
 
@@ -31,7 +32,8 @@ module RDO
     end
 
     def format_sql(sql)
-      "\033[35mSQL\033[0m \033[36m~\033[0m %s" % sql
+      a, b = @colors.reverse!
+      "\033[#{a}mSQL\033[0m %s" % sql.sub(/\A(\(\d+\.\d+\))(.*)\Z/, "\\1 \033[#{b}m~\033[0m \\2")
     end
 
     def format_err(msg)
