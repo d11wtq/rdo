@@ -303,6 +303,17 @@ DEBUG severity. Errors will be logged with FATAL severity.
 RDO.connect("postgres://user:pass@host/db", logger: Logger.new(STDOUT))
 ```
 
+A logger with some support for highlighting errors etc and which shows
+query execution times is configured (but disabled) by default. It is
+found at `RDO::ColoredLogger`. You can enable it by specify a log level:
+
+``` ruby
+RDO.connect("postgres://user:pass@host/db", log_level: Logger::DEBUG)
+```
+
+If you want the log output to go somewhere other than stdout, instantiate
+the logger manually.
+
 ## Contributing
 
 If you find a bug in RDO, send a pull request if you think you can fix it.
