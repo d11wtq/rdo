@@ -326,7 +326,10 @@ unintentionally.
 
 I haven't looked at what I need to change to have the drivers compile on
 Windows yet, but I will do. If anybody beats me to it, pull requests will
-be gladly accepted! I'll probably add some thin JDBC wrappers for jRuby.
+be gladly accepted! I was going to write JDBC wrappers for JRuby, but have
+decided to just aim for JRuby >= 1.6, which supports C extensions. This
+hasn't yet been tested with RDO. I should be able to make it work, as the
+parts of the Ruby API I use are very typical.
 
 ### Writing a driver for RDO
 
