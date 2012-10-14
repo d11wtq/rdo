@@ -38,6 +38,25 @@
 #define RDO_ERROR(...) (rb_raise(rb_path2class("RDO::Exception"), __VA_ARGS__))
 
 /**
+ * Calls Driver#interpolate for args.
+ *
+ * @param VALUE (RDO::Driver)
+ *   the Driver to use #quote from
+ *
+ * @param (VALUE *) args
+ *   a C array where the first element is the SQL and the remainder are the bind params
+ *
+ * @param int argc
+ *   the number of elements in args
+ *
+ * @return VALUE (String)
+ *   a Ruby String with the SQL including the interpolated params
+ */
+#define RDO_INTERPOLATE(driver, args, argc) \
+  (rb_funcall(driver, rb_intern("interpolate"), 2, \
+              args[0], rb_ary_new4(argc - 1, &args[1])))
+
+/**
  * Factory to return a new RDO::Result for an Enumerable object of tuples.
  *
  * @param VALUE (Enumerable) tuples
