@@ -53,18 +53,6 @@
   (rb_funcall(rb_path2class("RDO::Result"), rb_intern("new"), 2, tuples, info))
 
 /**
- * Wrap the given StatementExecutor in a RDO::Statement.
- *
- * @param VALUE
- *   any object that responds to #command and #execute
- *
- * @return VALUE
- *   an RDO::Statement
- */
-#define RDO_STATEMENT(executor) \
-  (rb_funcall(rb_path2class("RDO::Statement"), rb_intern("new"), 1, executor))
-
-/**
  * Convert a C string to a ruby String.
  *
  * @param (char *) s
@@ -77,7 +65,8 @@
  *   a Ruby String
  */
 #define RDO_STRING(s, len, enc) \
-  (rb_enc_associate_index(rb_str_new(s, len), enc > 0 ? enc : 0))
+  (rb_enc_associate_index(rb_str_new(s, len), \
+                          enc > 0 ? enc : rb_enc_find_index("binary")))
 
 /**
  * Convert a C string to a ruby String, assuming possible NULL bytes.
@@ -91,7 +80,8 @@
  * @return VALUE (String)
  *   a Ruby String
  */
-#define RDO_BINARY_STRING(s, len) (rb_str_new(s, len))
+#define RDO_BINARY_STRING(s, len) \
+  (RDO_STRING(s, len, rb_enc_find_index("binary")))
 
 /**
  * Convert a C string to a Fixnum.
