@@ -293,7 +293,7 @@ This method returns nil if there are no rows, so if you need to distinguish
 between NULL and no rows, you will need to check the result contents the
 longer way around.
 
-### Logging Statements
+### Debugging
 
 A Logger instance (with an interface like that in Ruby stdlib) may be passed
 in the options when creating a connection. All queries will be logged with
@@ -313,6 +313,20 @@ RDO.connect("postgres://user:pass@host/db", log_level: Logger::DEBUG)
 
 If you want the log output to go somewhere other than stdout, instantiate
 the logger manually.
+
+### Temporary debug output
+
+Turning on debug logging globally is often a little overkill and too noisy.
+You may enable debug logging in the context of a block, like so:
+
+``` ruby
+connection.debug do
+  # call some methods that execute SQL
+end
+```
+
+The log level will be restored after the block has executed, even if an
+Exception is raised.
 
 ## Contributing
 

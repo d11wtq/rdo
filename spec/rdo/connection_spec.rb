@@ -286,4 +286,39 @@ describe RDO::Connection do
       end
     end
   end
+
+  describe "#debug" do
+    let(:connection)   { RDO::Connection.new("test://host") }
+    let(:driver)       { double(:driver, open: true) }
+    let(:driver_class) { double(new: driver) }
+
+    before(:each) do
+      RDO::Connection.register_driver(:test, driver_class)
+      connection
+    end
+
+    it "sets the log level to debug" do
+      connection.logger.level = Logger::FATAL
+      level = nil
+      connection.debug { level = connection.logger.level }
+      level.should == Logger::DEBUG
+    end
+
+    it "restores the log level" do
+      connection.logger.level = Logger::FATAL
+      connection.debug { }
+      connection.logger.level.should == Logger::FATAL
+    end
+
+    context "when the block raise an Exception" do
+      it "restores the log level" do
+        connection.logger.level = Logger::FATAL
+        begin
+          connection.debug { raise "test" }
+        rescue
+        end
+        connection.logger.level.should == Logger::FATAL
+      end
+    end
+  end
 end

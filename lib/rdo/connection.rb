@@ -127,6 +127,17 @@ module RDO
       Statement.new(@driver.prepare(command), logger)
     end
 
+    # Use debug log level in the context of a block.
+    def debug
+      raise ArgumentError,
+        "RDO::Connection#debug requires a block" unless block_given?
+
+      reset, logger.level = logger.level, Logger::DEBUG
+      yield
+    ensure
+      logger.level = reset
+    end
+
     private
 
     # Normalizes the given options String or Hash into a Symbol-keyed Hash.
