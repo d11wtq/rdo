@@ -1,8 +1,9 @@
 language: ruby
-script: "bundle exec rake spec"
+script: "JRUBY_OPTS='-Xcext.enabled=true' bundle exec rake spec"
 rvm:
   - 1.9.2
   - 1.9.3
   - rbx-19mode
+  - jruby-19mode
 notifications:
   email: chris@w3style.co.uk
