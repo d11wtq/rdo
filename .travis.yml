@@ -1,5 +1,5 @@
 language: ruby
-script: "JRUBY_OPTS='-Xcext.enabled=true' bundle exec rake spec"
+script: "JRUBY_OPTS='--server -Xcext.enabled=true -Xcompile.invokedynamic=false' bundle exec rake spec"
 rvm:
   - 1.9.2
   - 1.9.3
