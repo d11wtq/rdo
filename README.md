@@ -2,7 +2,7 @@
 
 RDO provides a simple, robust standardized way to access various RDBMS
 implementations in Ruby. Drivers all conform to the same, beautiful rubyesque
-interface. Where a feature is not natively supported by the DBMS—for example,
+interface. Where a feature is not natively supported by the DBMS—perhaps
 prepared statements—it is seamlessly emulated, so you don't need to code
 around it.
 
@@ -36,27 +36,7 @@ end
 conn.close
 ```
 
-## Strange looking ORM you have there, Sir
-
-It's not an ORM. RDO provides access to a number of RDBMS's. It allows you to
-query using pure SQL/DDL commands, as thinly as is necessary. It is absolutely
-not, nor is it trying to be an SQL abstraction layer, an ORM or anything of
-that nature. The intention is to provide a way to allow Ruby developers to
-write applications that use a database, but don't use an ORM (*scoff!*).
-
-Or perhaps you're actually writing the next kick-ass ORM? Either way, RDO
-just lets you talk directly to your database.
-
-## What's the point?
-
-Let's face it, we've been writing database applications since the dark ages—
-it's not that hard. What's lacking from Ruby, however, is any consistency for
-dealing with a database directly. Several beautiful ORMs exist, but they
-serve a different need. [DataMapper](https://github.com/datamapper/dm-core)
-has a layer underneath it called [data_objects](https://github.com/datamapper/do),
-but it isn't particularly user-friendly when used standalone and it requires
-jumping through hoops to deal with certain database RDBMS features, such as
-PostgreSQL bytea fields (which, in RDO, "just work").
+## Features
 
 RDO makes the following things standard:
 
@@ -65,10 +45,11 @@ RDO makes the following things standard:
   - **Prepared statements** where possible; emulated where not
   - **Type-casting** to equivalent Ruby types (e.g. Fixnum, BigDecimal,
     Float, even Array)
-  - Access meta data after write operations, with insert IDs standardized
+  - Access result information after write operations, with insert IDs standardized
   - **Use simple core data types** (Hash) for reading values and field names
 
 Note that data-type support is limited to whatever the DBMS actually supports.
+See individual driver READMEs for type support information.
 
 ## Installation
 
@@ -133,6 +114,9 @@ And then execute:
   </tbody>
 </table>
 
+I'm looking for contributors to develop and maintain drivers for other vendors:
+Oracle, SQL Server and DB2 are of interest. Your project would be linked above.
+
 ## Usage
 
 The interface for RDO is intentionally minimal. It should take a few minutes
@@ -179,9 +163,9 @@ p conn.open? #=> true
 
 ### Performing non-read commands
 
-All SQL and DDL (Data Definition Language) is executed with #execute, which
-always returns a RDO::Result object. Query inputs should be provided as
-binding placeholders and additional arguments. No explicit type-conversion is
+Any command supported by the DBMS is executed with #execute, which always
+returns a RDO::Result object. Query inputs should be provided as binding
+placeholders and additional arguments. No explicit type-conversion is
 necessary.
 
 ``` ruby
@@ -211,8 +195,8 @@ include any error messaage provided by the DBMS.
 ### Performing read queries
 
 There is no difference in the interface for reads or writes. Just call
-the #execute method in both cases. This always returns a RDO::Result.
-RDO::Result includes the Enumerable module. Some operations, such as #count
+the #execute method in both cases. This always returns an RDO::Result,
+which includes the Enumerable module. Some operations, such as #count
 may be optimized by the driver.
 
 ``` ruby
@@ -270,15 +254,13 @@ conn.execute("INSERT INTO users (name) VALUES ('#{conn.quote(params[:name])}')")
 RDO uses Symbols as keys in the hashes that represent data rows. Most of the
 time this is desirable. If you query for something that returns field names
 containing spaces, or punctuation, you need to convert a String to a Symbol
-using #to_sym or #intern. Or wrap the Hash with a Mash of some sort.
+using #to_sym or #intern. Or use a quoted Symbol-literal.
 
 ``` ruby
 result = conn(%q{SELECT 42 AS "The Meaning"})
+p result.first[:"The Meaning"]
 p result.first["The Meaning".intern]
 ```
-
-I weighed up the possibility of using a custom data type, but I prefer core
-ruby types unless there's an overwhelming reason to use a custom type, sorry.
 
 ### Selecting just a single value
 
@@ -303,6 +285,13 @@ DEBUG severity. Errors will be logged with FATAL severity.
 RDO.connect("postgres://user:pass@host/db", logger: Logger.new(STDOUT))
 ```
 
+You can access the logger through `connection.logger`.
+
+``` ruby
+conn.logger.level = Logger::DEBUG
+conn.logger.debug? #=> true
+```
+
 A logger with some support for highlighting errors etc and which shows
 query execution times is configured (but disabled) by default. It is
 found at `RDO::ColoredLogger`. You can enable it by specify a log level:
@@ -320,7 +309,7 @@ Turning on debug logging globally is often a little overkill and too noisy.
 You may enable debug logging in the context of a block, like so:
 
 ``` ruby
-connection.debug do
+conn.debug do
   # call some methods that execute SQL
 end
 ```
@@ -335,8 +324,7 @@ Your contribution will be recognized here. If you don't know how to fix it,
 file an issue in the issue tracker on GitHub.
 
 When sending pull requests, please use topic branches—don't send a pull
-request from the master branch of your fork, as that may change
-unintentionally.
+request from the master branch of your fork.
 
 I haven't looked at what I need to change to have the drivers compile on
 Windows yet, but I will do. If anybody beats me to it, pull requests will
@@ -349,22 +337,39 @@ parts of the Ruby API I use are very typical.
 
 The more drivers that RDO has support for, the better. Writing drivers for
 RDO is quite painless. They are just thin wrappers around the C API for the
-DBMS, which conform to RDO's interface.
+DBMS, which conform to RDO's Driver interface.
+
+```
+RDO::Driver
+  - open
+  - open?
+  - close
+  - execute
+  - prepare
+  - quote
+```
+
+The #execute method returns an RDO::Result, which takes any Enumerable and
+some options in its initializer. The Enumerable just iterates over the rows
+in the result. The options Hash provides result information.
+
+The #prepare method is optional, but should return an Object with the
+following methods:
+
+```
+RDO::StatementExecutor
+  - command
+  - execute
+```
+
+The #command method just provides the String form of the statement. The #execute
+method returns an RDO::Result, as per the Driver.
 
 Some of the more boilerplate things you'd normally have to do are covered by
 C macros in the util/macros.h file you'll find in this repository. Copy that
 file to your own project and include it for one-line type conversions etc.
 Take a look at one of the existing drivers to get an idea how to write a
-driver.
-
-Because one person could not possibly maintain drivers for all conceivable
-DBMS's, it is better that different developers write and maintain different
-drivers. If you have written a driver for RDO, please fork this git repo and
-edit this README to list it, then send a pull request. That way others will
-find it more easily.
-
-I'm particularly interested in drivers for Oracle and Microsoft SQL Server,
-though I don't personally use these.
+driver (rdo-sqlite and rdo-mysql are probably simple ones).
 
 ## Copyright & Licensing
 
