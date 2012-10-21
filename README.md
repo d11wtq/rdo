@@ -1,4 +1,4 @@
-# RDO—Ruby Data Objects
+# RDO—Database Connectivity for Ruby
 
 RDO provides a simple, robust standardized way to access various RDBMS
 implementations in Ruby. Drivers all conform to the same, beautiful rubyesque
@@ -9,6 +9,8 @@ around it.
 It targets **Ruby 1.9** and newer (including Rubinius 2.0).
 
 [![Build Status](https://secure.travis-ci.org/d11wtq/rdo.png?branch=master)](http://travis-ci.org/d11wtq/rdo)
+
+**RDO** stands for Ruby Data Objects.
 
 ``` ruby
 require "rdo"
