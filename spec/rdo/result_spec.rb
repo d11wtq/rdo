@@ -97,6 +97,24 @@ describe RDO::Result do
     end
   end
 
+  describe "#empty?" do
+    context "when #count == 0" do
+      let(:result) { RDO::Result.new([], count: 0) }
+
+      it "returns true" do
+        result.should be_empty
+      end
+    end
+
+    context "when #count > 0" do
+      let(:result) { RDO::Result.new([], count: 1) }
+
+      it "returns false" do
+        result.should_not be_empty
+      end
+    end
+  end
+
   describe "#first_value" do
     context "when there are tuples" do
       let(:result) { RDO::Result.new([{id: 6, name: "bob"}]) }

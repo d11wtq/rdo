@@ -81,8 +81,16 @@ module RDO
       if info[:count].nil? || block_given?
         super
       else
-        info[:count]
+        info[:count].to_i
       end
+    end
+
+    # Check if the result has no rows.
+    #
+    # @return [Boolean]
+    #   true if the result has no returned rows
+    def empty?
+      count.zero?
     end
 
     # Get the time spent processing the statement.
