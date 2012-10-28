@@ -95,6 +95,13 @@ static VALUE rdo_driver_interpolate(VALUE self, VALUE stmt, VALUE params) {
   // this loop is intentionally kept procedural (for performance)
   for (; *s; ++s, ++b) {
     switch (*s) {
+      case '\\':
+        if (!insquote && !indquote && !inmlcmt && !inslcmt && *(s + 1) == '?')
+          ++s;
+
+        *b = *s;
+        break;
+
       case '?':
         if (insquote || indquote || inmlcmt || inslcmt) {
           *b = *s;

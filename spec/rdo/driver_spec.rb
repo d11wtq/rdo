@@ -84,6 +84,16 @@ describe RDO::Driver do
       end
     end
 
+    context "with escaped marks" do
+      it "does not treat them as bind markers" do
+        driver.send(
+          :interpolate,
+          %q{SELECT 'a=>42,b=>7'::hstore \? ?},
+          ["a"]
+        ).should == "SELECT 'a=>42,b=>7'::hstore ? 'a'"
+      end
+    end
+
     context "with marks placed inside single quotes" do
       it "ignores the quoted marks" do
         driver.send(

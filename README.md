@@ -277,6 +277,16 @@ This method returns nil if there are no rows, so if you need to distinguish
 between NULL and no rows, you will need to check the result contents the
 longer way around.
 
+### Disambiguating bind markers from operators
+
+Some drivers use '?' for operators. In order to avoid ambiguity, escape such
+occurrences with a backslash. You **do not** need to escape inside of strings
+and comments (i.e. wherever a bind marker could not naturally occur).
+
+``` ruby
+conn.execute(%q{SELECT 'a=>42,b=>7'::hstore \? ?}, "a")
+```
+
 ### Debugging
 
 A Logger instance (with an interface like that in Ruby stdlib) may be passed
